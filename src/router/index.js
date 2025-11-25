@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import UserFollowingView from '@/views/UserFollowingView.vue'
+import OrganizerProfile from '@/views/OrganizerProfile.vue'
+import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +24,16 @@ const router = createRouter({
       path: '/following',
       name: 'following',
       component: UserFollowingView,
+    },
+    {
+      path: '/OrganizerProfile',
+      name: 'Organizer Profile',
+      component: OrganizerProfile,
+    },
+    {
+      path: '/follower',
+      name: 'Organizer Follower',
+      component: OrganizerFollowerView,
     },
 
   ],
