@@ -1,6 +1,6 @@
 <template> 
   <nav class="w-full mx-auto" style="height: 90px; background-color: #ffffffff;">
-        <div class="w-full mx-auto relative h-full">
+        <div class="w-full !mx-6 relative h-full">
             <div class="absolute left-4 md:left-8 lg:left-12 top-1/2 transform -translate-y-1/2">
                 <router-link to="/">
                     <img src="../assets/Logo.svg" alt="Voluntera logo">
@@ -8,7 +8,7 @@
             </div>                      
             <div class="md:flex absolute right-4 md:right-8 lg:right-12 top-1/2 transform -translate-y-1/2 space-x-6 lg:!space-x-4">
                 <button id="dashboardBtn" 
-                    class="flex px-3 md:px-4 lg:px-6 py-2 lg:py-3 border-2 rounded-lg text-xs md:text-sm lg:text-base font-medium" 
+                    class="flex px-3 md:px-4 lg:px-6 py-2 lg:py-3 rounded-lg text-xs md:text-sm lg:text-base font-medium" 
                     style="color: #155DFC; background-color: #EFF6FF;">
                     
                     <img src="../assets/dashboard.svg" class="!mr-2" alt="Dashboard">
