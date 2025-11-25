@@ -85,6 +85,11 @@ const router = createRouter({
       name: "EditListName",
       component: EditListName,
     },
+    {
+      path: "/logincoba",
+      name: "Login Dummy",
+      component: Login
+    }
   ]
 });
 
