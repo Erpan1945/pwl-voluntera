@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import UserFollowingView from '@/views/UserFollowingView.vue'
+import ActivityList from '@/views/ActivityList.vue'
+import FormDaftarBaru from '@/views/FormDaftarBaru.vue';
+
 import OrganizerProfile from '@/views/OrganizerProfile.vue'
 import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
 
@@ -26,6 +29,16 @@ const router = createRouter({
       component: UserFollowingView,
     },
     {
+      path: '/DaftarSaya',
+      name: 'DaftarSaya',
+      component: ActivityList,
+    },
+    {
+      path: '/form-daftar-baru',
+      name: 'FormDaftarBaru',
+      component: FormDaftarBaru
+    },
+    {
       path: '/OrganizerProfile',
       name: 'Organizer Profile',
       component: OrganizerProfile,
@@ -35,8 +48,7 @@ const router = createRouter({
       name: 'Organizer Follower',
       component: OrganizerFollowerView,
     },
-
-  ],
-})
+  ]
+});
 
 export default router

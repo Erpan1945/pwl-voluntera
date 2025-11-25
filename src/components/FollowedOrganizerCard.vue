@@ -1,23 +1,29 @@
 <script setup>
     import UnfollowModal from './UnfollowModal.vue';
-    import { ref } from 'vue'
+    import { ref } from 'vue';
+    import { useFollowingStore } from '../stores/followings';
 
+    const props = defineProps({
+        organizer: Object // data satu organisasi
+    })
+
+    const followingStore = useFollowingStore()
     const isModalOpen = ref(false)
 
-    const handleUnfollow = () => {
-    console.log('User berhenti mengikuti yayasan!')
-    isModalOpen.value = false
+    const handleUnfollow = async () => {
+        await followingStore.removeFollow(props.organizer.organizer_id)
+        isModalOpen.value = false
     }
 </script>
 
 <template>
     <div class="w-full flex flex-col !py-10 !px-5 rounded-lg border border-black/10 !mt-6" style="background-color: white; border: 1px solid rgba(0, 0, 0, 0.10); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10), 0 1px 2px -1px rgba(0, 0, 0, 0.10);">
-        <router-link to="/OrganizerProfile">
+        <router-link :to="`/OrganizerProfile/${organizer.organizer_id}`">
             <div class="w-full flex !mb-5">
-                <img src="../assets/OrganizerProfile.svg" class="!mr-3">
+                <img :src="organizer.logo" class="!mr-3 !max-w-12">
                 <div>
-                    <h1 class="text text-black !text-base md:!text-sm">Yayasan Peduli Sesama</h1>
-                    <p class="text text-[#4A5565] !text-sm">Diikuti sejak 10/1/2025</p>
+                    <h1 class="text text-black !text-base md:!text-sm">{{ organizer.name }}</h1>
+                    <p class="text text-[#4A5565] !text-sm">Diikuti sejak {{ organizer.pivot.created_at.split('T')[0] }}</p>
                 </div>
             </div>
         </router-link>
