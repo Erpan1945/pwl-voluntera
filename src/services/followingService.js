@@ -31,7 +31,7 @@ export const createFollow = async (data) => {
 
 export const updateFollow = async (id, data) => {
   const token = localStorage.getItem('access_token'); // ambil token dari localStorage
-  return axios.put(`${API_URL}/following/${id}/notifications`, data,  {
+  return axios.patch(`${API_URL}/following/${id}/notifications`, data,  {
     headers: {
       Authorization: `Bearer ${token}`, // kirim token ke backend
     },
