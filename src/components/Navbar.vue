@@ -55,7 +55,7 @@ const router = useRouter();
 const auth = useAuthStore();
 
 const isLoggedIn = auth.isLoggedIn;
-const userName = auth.userName;
+const userName = auth.user.name;
 
 const handleLogout = () => {
   auth.logout();
