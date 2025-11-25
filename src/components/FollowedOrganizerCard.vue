@@ -51,7 +51,7 @@
 
     <UnfollowModal 
         v-model:show="isModalOpen"
-        organizationName="Yayasan Peduli Sesama"
+        :organizationName="organizer.name"
         @confirm="handleUnfollow"
     />
 </template>

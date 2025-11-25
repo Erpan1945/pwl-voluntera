@@ -7,14 +7,14 @@
     import ReviewCard from '@/components/ReviewCard.vue';
     import FollowedOrganizerCard from '@/components/FollowedOrganizerCard.vue';
 
-    import { onMounted } from 'vue';
+    import { onMounted, computed } from 'vue';
     import { useFollowingStore } from '@/stores/followings';
 
     const followingStore = useFollowingStore();
     onMounted(() => {
         followingStore.fetchFollowing()
     })
-    const totalFollowing = followingStore.totalFollowing;
+    const totalFollowing = computed(() => followingStore.followingList.length)
 </script>
 
 <template>
@@ -42,15 +42,16 @@
             </router-link>
        </div>
        <div class="w-full max-w-9/10 !mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <FollowedOrganizerCard
-                v-if="totalFollowing > 0"
-                v-for="org in followingStore.followingList"
-                :key="org.organizer_id"
-                :organizer="org"
-            />
+            <template v-if="totalFollowing > 0">
+                <FollowedOrganizerCard
+                    v-for="org in followingStore.followingList"
+                    :key="org.organizer_id"
+                    :organizer="org"
+                />
+            </template>
             <p v-else class="text-gray-500 text-center col-span-3 py-10">
                 Kamu belum mengikuti organisasi mana pun.
-            </p>  
+            </p>
        </div>
     </div>
 </template>
