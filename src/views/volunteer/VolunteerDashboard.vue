@@ -1,6 +1,15 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-50 justify-center">
-    <NavbarComponent :user="currentUser" @logout="handleLogout" />
+  <div class="min-h-screen flex flex-col bg-gray-50">
+    <!-- Loading State -->
+    <div v-if="!currentUser" class="flex items-center justify-center min-h-screen">
+      <div class="text-center">
+        <p class="text-gray-600 text-lg">Loading...</p>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <template v-else>
+      <NavbarComponent :user="currentUser" @logout="handleLogout" />
 
     <div class="max-w-7xl mx-auto px-4 py-5 flex-1 w-full">
       <!-- Header -->
@@ -273,6 +282,7 @@
     </ModalComponent>
 
     <FooterComponent />
+    </template>
   </div>
 </template>
 
@@ -305,7 +315,12 @@ import FollowCard from '@/components/features/FollowCard.vue'
 import ActivityListCard from '@/components/features/ActivityListCard.vue'
 
 const router = useRouter()
-const { currentUser, logout } = useAuth()
+const { currentUser, logout, initAuth } = useAuth()
+
+// Initialize auth on mount
+onMounted(() => {
+  initAuth()
+})
 const { filterActivities, publishedActivities, getAvailableCities } = useActivities()
 const {
   getEnrollmentsByVolunteer,
