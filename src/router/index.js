@@ -68,7 +68,7 @@ const router = createRouter({
       component: OrganizerProfile,
     },
     {
-      path: '/follower',
+      path: '/follower/:id',
       name: 'OrganizerFollower',
       component: OrganizerFollowerView,
     },
