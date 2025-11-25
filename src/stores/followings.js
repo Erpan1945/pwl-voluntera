@@ -21,7 +21,7 @@ export const useFollowingStore = defineStore('following', () => {
   const fetchFollower = async (id) => {
     try {
       const res = await getFollower(id);
-      followerList.value = res.data.data;
+      followerList.value = res.data.data.volunteers;
     } catch (error) {
       console.error(error);
     }

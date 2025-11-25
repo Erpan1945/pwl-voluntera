@@ -42,7 +42,11 @@
         if (followingStore.followingList.length === 0) {
             await followingStore.fetchFollowing();
         }
+
+        await followingStore.fetchFollower(organizerId);
     });
+
+    const totalFollower = computed(() => followingStore.followerList.length);
 </script>
 
 <template>
@@ -69,7 +73,7 @@
                     <p class="text !text-base text-[#4A5565]">{{ organizer?.email }}</p>
                     <RouterLink to="/follower" class="inline-block max-w-fit">
                         <p class="text text-[#4A5565] max-w-fit">
-                        <span class="!font-bold">234</span> Pengikut
+                        <span class="!font-bold">{{ totalFollower }}</span> Pengikut
                         </p>
                     </RouterLink>
                 </div>
