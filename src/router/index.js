@@ -40,18 +40,18 @@ const router = createRouter({
       component: FormDaftarBaru
     },
     {
-      path: '/OrganizerProfile',
-      name: 'Organizer Profile',
+      path: '/OrganizerProfile/:id',
+      name: 'OrganizerProfile',
       component: OrganizerProfile,
     },
     {
       path: '/follower',
-      name: 'Organizer Follower',
+      name: 'OrganizerFollower',
       component: OrganizerFollowerView,
     },
     {
       path: '/login',
-      name: 'Organizer Follower',
+      name: 'Login',
       component: Login,
     },
   ]
