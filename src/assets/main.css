@@ -2,7 +2,9 @@
 @import 'tailwindcss';
 
 :root {
-  --font-body: system-ui, -apple-system, sans-serif;
+    font-family:  Arial, system-ui, Avenir, Helvetica, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
 }
 
 body {
@@ -38,13 +40,6 @@ p {
   box-sizing: border-box;
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-}
-
 a,
 .green {
   text-decoration: none;
@@ -59,15 +54,3 @@ a,
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-}
