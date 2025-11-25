@@ -1,6 +1,7 @@
 @import './base.css';
 @import 'tailwindcss';
 
+
 :root {
     font-family:  Arial, system-ui, Avenir, Helvetica, sans-serif;
     line-height: 1.5;
@@ -40,17 +41,17 @@ p {
   box-sizing: border-box;
 }
 
-a,
+/* a,
 .green {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
   padding: 3px;
-}
+} */
 
-@media (hover: hover) {
+/* @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
   }
-}
+} */
 

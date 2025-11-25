@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import UserFollowingView from '@/views/UserFollowingView.vue'
+import ActivityList from '@/views/ActivityList.vue'
+import FormDaftarBaru from '@/views/FormDaftarBaru.vue';
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,7 +26,16 @@ const router = createRouter({
       name: 'following',
       component: UserFollowingView,
     },
-
+    {
+      path: '/DaftarSaya',
+      name: 'DaftarSaya',
+      component: ActivityList,
+    },
+    {
+      path: '/form-daftar-baru',
+      name: 'FormDaftarBaru',
+      component: FormDaftarBaru
+    },
   ],
 })
 
