@@ -1,8 +1,8 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-50">
+  <div class="min-h-screen flex flex-col bg-gray-50 justify-center">
     <NavbarComponent :user="currentUser" @logout="handleLogout" />
 
-    <div class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full">
+    <div class="max-w-7xl mx-auto px-4 py-5 flex-1 w-full">
       <!-- Header -->
       <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Dashboard Relawan</h1>

@@ -1,6 +1,10 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
-    <div class="max-w-2xl mx-auto">
+  <div class="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div class="max-w-2xl w-full">
+      <button @click="goBack" class="flex items-center gap-2 text-sm text-gray-700 mb-4 hover:underline">
+        <ArrowLeft :size="18" class="text-gray-700" />
+        Kembali
+      </button>
       <div class="text-center mb-8">
         <div class="flex items-center justify-center gap-3 mb-4">
           <Heart class="text-blue-600" :size="40" />
@@ -185,7 +189,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { Heart, Users, Building2 } from 'lucide-vue-next'
+import { Heart, Users, Building2, ArrowLeft } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import CardComponent from '@/components/common/CardComponent.vue'
 import InputComponent from '@/components/common/InputComponent.vue'
@@ -194,6 +198,10 @@ import ButtonComponent from '@/components/common/ButtonComponent.vue'
 
 const router = useRouter()
 const { registerVolunteer, registerOrganizer } = useAuth()
+
+const goBack = () => {
+  router.push('/')
+}
 
 const activeTab = ref('volunteer')
 const loading = ref(false)

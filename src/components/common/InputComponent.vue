@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4">
-    <label v-if="label" class="block text-sm font-medium text-gray-700 mb-1">
+    <label v-if="label" class="block text-sm font-medium text-gray-700 mb-1 py-2.5">
       {{ label }}
       <span v-if="required" class="text-red-500">*</span>
     </label>
@@ -11,6 +11,7 @@
       :required="required"
       :class="inputClasses"
       @input="handleInput"
+      class="text-gray-900"
     />
     <p v-if="error" class="mt-1 text-sm text-red-600">{{ error }}</p>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <footer class="bg-gray-50 border-t mt-auto">
-    <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="max-w-1xl mx-auto px-4 py-8">
       <div class="grid md:grid-cols-3 gap-8">
         <!-- About -->
         <div>

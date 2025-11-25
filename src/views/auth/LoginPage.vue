@@ -1,13 +1,17 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+  <div class="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
     <div class="max-w-md w-full">
+      <button @click="goBack" class="flex items-center gap-2 text-sm text-gray-700 mb-4 hover:underline">
+        <ArrowLeft :size="18" class="text-gray-700" />
+        Kembali
+      </button>
       <div class="text-center mb-8">
         <div class="flex items-center justify-center gap-3 mb-4">
           <Heart class="text-blue-600" :size="40" />
           <span class="text-2xl font-bold text-gray-900">Voluntera</span>
         </div>
         <h1 class="text-2xl font-bold text-gray-900 mb-2">Masuk ke Akun Anda</h1>
-        <p class="text-gray-600">Mulai berbuat baik hari ini</p>
+        <p class="text-gray-600 py-3">Mulai berbuat baik hari ini</p>
       </div>
 
       <CardComponent :padding="true">
@@ -30,7 +34,7 @@
             :error="errors.password"
           />
 
-          <div v-if="errors.general" class="mb-4 p-3 bg-red-50 rounded-lg">
+          <div v-if="errors.general" class="mb-4 py-3 bg-red-50 rounded-lg">
             <p class="text-sm text-red-700">{{ errors.general }}</p>
           </div>
 
@@ -38,12 +42,12 @@
             type="submit"
             variant="primary"
             :disabled="loading"
-            class="w-full mb-4"
+            class="w-full mb-4 py-1"
           >
             {{ loading ? 'Memproses...' : 'Masuk' }}
           </ButtonComponent>
 
-          <div class="text-center text-sm text-gray-600">
+          <div class="text-center text-sm text-gray-600 py-1">
             Belum punya akun?
             <router-link to="/register" class="text-blue-600 hover:underline">
               Daftar di sini
@@ -77,7 +81,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { Heart } from 'lucide-vue-next'
+import { Heart, ArrowLeft } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import CardComponent from '@/components/common/CardComponent.vue'
 import InputComponent from '@/components/common/InputComponent.vue'
@@ -85,6 +89,10 @@ import ButtonComponent from '@/components/common/ButtonComponent.vue'
 
 const router = useRouter()
 const { login } = useAuth()
+
+const goBack = () => {
+  router.push('/')
+}
 
 const email = ref('')
 const password = ref('')
