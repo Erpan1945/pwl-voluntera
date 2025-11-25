@@ -1,13 +1,55 @@
 <script setup>
-import Navbar from '@/components/Navbar.vue';
+    import UnfollowModal from '../components/UnfollowModal.vue';
+    import Navbar from '@/components/Navbar.vue';
+    import { useRouter, useRoute } from 'vue-router';
+    import { ref, computed, onMounted } from 'vue';
+    import { useFollowingStore } from '../stores/followings';
+    import NotificationOn from '../assets/NotificationOn.svg'
+    import NotificationOff from '../assets/NotificationOff.svg'
+    const router = useRouter();
+    const route = useRoute();
 
+    function goBack() {
+        router.back();
+    }
+
+    const followingStore = useFollowingStore()
+    const isModalOpen = ref(false)
+    const organizerId = route.params.id
+
+    const organizer = computed(() => {
+        return followingStore.followingList.find(org => org.organizer_id == organizerId) || null;
+    });
+
+    const handleUnfollow = async () => {
+        await followingStore.removeFollow(organizerId)
+        router.push('/following');
+        isModalOpen.value = false
+    }
+    const notificationState = computed(() => organizer.value?.pivot?.notification === 1);
+
+    const UpdateNotification = async() => {
+        const newValue = notificationState.value ? 0 : 1;
+        await followingStore.notifyFollow(organizerId, { notification: newValue });
+        alert(
+            newValue === 1
+            ? 'Anda berhasil menghidupkan notifikasi!'
+            : 'Anda berhasil mematikan notifikasi!'
+        );
+    };
+
+    onMounted(async () => {
+        if (followingStore.followingList.length === 0) {
+            await followingStore.fetchFollowing();
+        }
+    });
 </script>
 
 <template>
     <Navbar />
     <div class="w-full max-w-3/4 !mx-auto !mt-4">
         <div class="flex">
-            <img src="../assets/BackIcon.svg"/>
+            <img src="../assets/BackIcon.svg" @click="goBack()"/>
             <p class="text text-base text-[#4A5565] !ml-2">Kembali</p>
         </div>
 
@@ -18,13 +60,13 @@ import Navbar from '@/components/Navbar.vue';
                 </div>
 
                 <div class="self-center">
-                    <div class="w-full flex !space-x-3">
-                        <h1 class="!text-xl text text-black">Yayasan Peduli Sesama</h1>
+                    <div v-if="organizer" class="w-full flex !space-x-3">
+                        <h1 class="!text-xl text text-black">{{ organizer?.name }}</h1>
                         <button class="text !text-sm text-[#1447E6] !py-1 !px-3 rounded-xl" style="background-color: #DBEAFE;">
                             Penyelenggara
                         </button>
                     </div>
-                    <p class="text !text-base text-[#4A5565]">Organizer@test.com</p>
+                    <p class="text !text-base text-[#4A5565]">{{ organizer?.email }}</p>
                     <RouterLink to="/follower" class="inline-block max-w-fit">
                         <p class="text text-[#4A5565] max-w-fit">
                         <span class="!font-bold">234</span> Pengikut
@@ -35,12 +77,12 @@ import Navbar from '@/components/Navbar.vue';
             
             <div class="flex items-end space-x-2">
                 <div class="flex items-end ml-auto space-x-2">
-                    <button class="flex justify-center items-center !px-4 !py-2 rounded-xl text-center self-end !mr-3" style="background-color: #E5E7EB; color: #364153;">
+                    <button class="flex justify-center items-center !px-4 !py-2 rounded-xl text-center self-end !mr-3" style="background-color: #E5E7EB; color: #364153;" @click="isModalOpen = true">
                         <img src="../assets/OrganizerIconBlack.svg" class="max-w-4 max-h-4 !mr-2"></img>
                         Mengikuti
                     </button>
-                    <button class="!px-4 !py-2  rounded-lg flex items-center justify-center" style="background-color: #E5E7EB;">
-                        <img src="../assets/NotificationOn.svg" class="max-w-10 max-h-10 p-[2px]">
+                    <button class="!px-4 !py-2  rounded-lg flex items-center justify-center" style="background-color: #E5E7EB;" @click="UpdateNotification">
+                        <img :src="notificationState ? NotificationOn : NotificationOff" class="max-w-10 max-h-10 p-[2px]">
                     </button>
                 </div>
             </div>
@@ -83,4 +125,10 @@ import Navbar from '@/components/Navbar.vue';
             </div>
         </div>
     </div>
+
+    <UnfollowModal 
+        v-model:show="isModalOpen"
+        :organizationName="organizer?.name"
+        @confirm="handleUnfollow"
+    />
 </template>
