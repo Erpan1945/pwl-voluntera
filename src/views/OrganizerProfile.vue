@@ -98,33 +98,38 @@
 
             <div>
                 <label class="text text-[#364153]">Nama Organisasi</label>
-                <div class="flex items-center !mb-6">
-                    <img />
-                    <p class="text text-black">Yayasan Peduli Sesama</p>
+                <div class="flex items-center !mb-4">
+                    <img src="../assets/OrganizerProfileIcon.svg" class="max-w-5 !mr-3"/>
+                    <p class="text text-black">{{ organizer?.name }}</p>
                 </div>
 
-                <label class="text text-[#364153]">Nama Organisasi</label>
-                <div class="flex items-center !mb-6">
-                    <img />
-                    <p class="text text-black">Yayasan Peduli Sesama</p>
+                <label class="text text-[#364153]">Email</label>
+                <div class="flex items-center !mb-4">
+                    <img src="../assets/OrganizerEmailIcon.svg" class="max-w-5 !mr-3"/>
+                    <p class="text text-black">{{organizer?.email}}</p>
                 </div>
 
-                <label class="text text-[#364153]">Nama Organisasi</label>
-                <div class="flex items-center !mb-6">
-                    <img />
-                    <p class="text text-black">Yayasan Peduli Sesama</p>
+                <label class="text text-[#364153]">Nomor Telepon</label>
+                <div class="flex items-center !mb-4">
+                    <img src="../assets/OrganizerPhoneIcon.svg" class="max-w-5 !mr-3"/>
+                    <p class="text text-black">{{organizer?.phone_number}}</p>
                 </div>
 
-                <label class="text text-[#364153]">Nama Organisasi</label>
-                <div class="flex items-center !mb-6">
-                    <img />
-                    <p class="text text-black">Yayasan Peduli Sesama</p>
+                <label class="text text-[#364153]">Kota</label>
+                <div class="flex items-center !mb-4">
+                    <img src="../assets/OrganizerLocationIcon.svg" class="max-w-5 !mr-3"/>
+                    <p class="text text-black">{{ organizer?.city }}</p>
                 </div>
 
-                <label class="text text-[#364153]">Nama Organisasi</label>
-                <div class="flex items-center !mb-6">
-                    <img />
-                    <p class="text text-black">Yayasan Peduli Sesama</p>
+                <label class="text text-[#364153]">Tanggal Berdiri</label>
+                <div class="flex items-center !mb-4">
+                    <img src="../assets/OrganizerTimeIcon.svg" class="max-w-5 !mr-3" />
+                    <p class="text text-black">{{ organizer?.date_of_establishment }}</p>
+                </div>
+
+                <label class="text text-[#364153]">Deskripsi Organisasi</label>
+                <div class="flex items-center !mb-4">
+                    <p class="text text-black">{{ organizer?.description}}</p>
                 </div>
             </div>
         </div>
