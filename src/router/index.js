@@ -6,6 +6,7 @@ import FormDaftarBaru from '@/views/FormDaftarBaru.vue';
 
 import OrganizerProfile from '@/views/OrganizerProfile.vue'
 import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
+import Login from '@/views/Login.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,6 +48,11 @@ const router = createRouter({
       path: '/follower',
       name: 'Organizer Follower',
       component: OrganizerFollowerView,
+    },
+    {
+      path: '/login',
+      name: 'Organizer Follower',
+      component: Login,
     },
   ]
 });
