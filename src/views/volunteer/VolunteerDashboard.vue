@@ -1,17 +1,17 @@
 <template>
   <div class="min-h-screen flex flex-col bg-gray-50">
     <!-- Loading State -->
-    <div v-if="!currentUser" class="flex items-center justify-center min-h-screen">
+    <div v-if="!currentUser || !currentUser.id" class="flex items-center justify-center min-h-screen">
       <div class="text-center">
         <p class="text-gray-600 text-lg">Loading...</p>
       </div>
     </div>
 
     <!-- Main Content -->
-    <template v-else>
+    <div v-else class="flex flex-col min-h-screen">
       <NavbarComponent :user="currentUser" @logout="handleLogout" />
 
-    <div class="max-w-7xl mx-auto px-4 py-5 flex-1 w-full">
+      <div class="max-w-7xl mx-auto px-4 py-5 flex-1 w-full">
       <!-- Header -->
       <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Dashboard Relawan</h1>
@@ -281,8 +281,8 @@
       </form>
     </ModalComponent>
 
-    <FooterComponent />
-    </template>
+      <FooterComponent />
+    </div>
   </div>
 </template>
 
@@ -316,6 +316,7 @@ import ActivityListCard from '@/components/features/ActivityListCard.vue'
 
 const router = useRouter()
 const { currentUser, logout, initAuth } = useAuth()
+const isLoggingOut = ref(false)
 
 // Initialize auth on mount
 onMounted(() => {
@@ -391,22 +392,27 @@ const cityOptions = computed(() => {
 })
 
 const myEnrollments = computed(() => {
+  if (!currentUser.value?.id) return []
   return getEnrollmentsByVolunteer(currentUser.value.id)
 })
 
 const myReviews = computed(() => {
+  if (!currentUser.value?.id) return []
   return getReviewsByVolunteer(currentUser.value.id)
 })
 
 const myFollows = computed(() => {
+  if (!currentUser.value?.id) return []
   return getFollowsByVolunteer(currentUser.value.id)
 })
 
 const myLists = computed(() => {
+  if (!currentUser.value?.id) return []
   return getListsByVolunteer(currentUser.value.id)
 })
 
 const reviewableActivitiesOptions = computed(() => {
+  if (!currentUser.value?.id) return []
   const accepted = acceptedEnrollments.value.filter(e => e.volunteerId === currentUser.value.id)
   return accepted
     .filter(e => canReview(currentUser.value.id, e.activityId))
@@ -421,10 +427,17 @@ const viewActivityDetail = (activity) => {
   router.push(`/activity/${activity.id}`)
 }
 
-const handleLogout = () => {
-  if (confirm('Yakin ingin logout?')) {
+const handleLogout = async () => {
+  if (isLoggingOut.value) return // Prevent double-click
+  
+  isLoggingOut.value = true
+  try {
     logout()
-    router.push('/login')
+    await router.push('/login')
+  } catch (error) {
+    console.error('Logout error:', error)
+  } finally {
+    isLoggingOut.value = false
   }
 }
 
@@ -438,6 +451,7 @@ const cancelEnrollment = (enrollment) => {
 }
 
 const submitReview = () => {
+  if (!currentUser.value?.id) return
   const activity = publishedActivities.value.find(a => a.id === reviewForm.value.activityId)
   
   const result = createReview({
@@ -475,6 +489,7 @@ const toggleNotification = (follow) => {
 }
 
 const createNewList = () => {
+  if (!currentUser.value?.id) return
   const result = createList({
     volunteerId: currentUser.value.id,
     volunteerName: currentUser.value.name,

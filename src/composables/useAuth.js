@@ -245,6 +245,7 @@ export function useAuth() {
   return {
     // State
     currentUser,
+    user: currentUser,
     users,
     
     // Computed
@@ -261,6 +262,7 @@ export function useAuth() {
     logout,
     updateProfile,
     changePassword,
-    getUserById
+    getUserById,
+    handleLogout: logout
   }
 }

@@ -162,6 +162,8 @@ import {
   Shield 
 } from 'lucide-vue-next'
 import LogoComponent from '@/components/common/LogoComponent.vue'
+import NavLink from '@/components/layout/NavLink.vue'
+import MobileNavLink from '@/components/layout/MobileNavLink.vue'
 
 const { user, isVolunteer, isOrganizer, isAdmin, handleLogout } = useAuth()
 
