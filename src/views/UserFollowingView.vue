@@ -32,7 +32,10 @@
                 <button class="rounded-xl text text-[#4A5565] text-base !px-3 !py-2 " style="background-color: white;">Daftar Saya</button>
             </router-link>
        </div>
-       <div class="w-full max-w-9/10 !mx-auto grid grid-cols-3 gap-5">    
+       <div class="w-full max-w-9/10 !mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <FollowedOrganizerCard />
+            <FollowedOrganizerCard />
+            <FollowedOrganizerCard />        
        </div>
     </div>
 </template>
