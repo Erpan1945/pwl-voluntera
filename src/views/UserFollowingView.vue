@@ -37,7 +37,7 @@
             <router-link to="/following">
                 <button class="rounded-xl text text-white text-base !px-3 !py-2 " style="background-color: #155DFC;">Mengikuti</button>
             </router-link>
-            <router-link to="/DaftarSaya">
+            <router-link to="/activity_lists">
                 <button class="rounded-xl text text-[#4A5565] text-base !px-3 !py-2 " style="background-color: white;">Daftar Saya</button>
             </router-link>
        </div>

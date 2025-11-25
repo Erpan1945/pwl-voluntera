@@ -1,19 +1,33 @@
 <script setup>
 import Navbar from '@/components/Navbar.vue';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useMarkahStore } from '@/stores/lists';
 
 const router = useRouter();
+const route = useRoute();
 const store = useMarkahStore();
 
-// input form
+const listId = route.params.id;
+
 const name = ref("");
 
-// ambil volunteer_id dari localStorage (kamu tadi simpan di sana)
-const volunteerId = localStorage.getItem("volunteer_id");
+// tombol kembali
+const goBack = () => router.go(-1);
 
-// submit
+// Prefill: ambil nama lama
+onMounted(async () => {
+  // kalau lists belum dimuat (misal refresh)
+  if (!store.lists.length) {
+    const volunteerId = localStorage.getItem("volunteer_id");
+    await store.fetchAllLists(volunteerId);
+  }
+
+  const target = store.lists.find(l => l.id == listId);
+  if (target) name.value = target.name;
+});
+
+// Submit rename
 const handleSubmit = async () => {
   if (!name.value) {
     alert("Nama daftar wajib diisi!");
@@ -21,20 +35,15 @@ const handleSubmit = async () => {
   }
 
   try {
-    await store.createNewList(volunteerId, name.value);
+    await store.renameList(listId, name.value);
 
-    alert("Daftar berhasil dibuat!");
+    alert("Nama daftar berhasil diperbarui!");
 
-    router.push("/activity_lists");
+    router.push(`/activity_lists/${listId}`);
   } catch (err) {
     console.error(err);
-    alert("Terjadi kesalahan saat menyimpan daftar!");
+    alert("Terjadi kesalahan saat mengubah nama daftar.");
   }
-};
-
-// tombol kembali
-const goBack = () => {
-  router.go(-1);
 };
 </script>
 
@@ -52,7 +61,7 @@ const goBack = () => {
     </button>
 
     <!-- Judul -->
-    <h1 class="text-2xl font-bold mb-4">Nama Daftar</h1>
+    <h1 class="text-2xl font-bold mb-4">Ubah Nama Daftar</h1>
 
     <!-- Form -->
     <div class="flex items-center gap-4">

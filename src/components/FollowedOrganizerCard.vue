@@ -37,7 +37,9 @@
                 <img :src="organizer.logo" class="!mr-3 !max-w-12">
                 <div>
                     <h1 class="text text-black !text-base md:!text-sm">{{ organizer.name }}</h1>
-                    <p class="text text-[#4A5565] !text-sm">Diikuti sejak {{ organizer.pivot.created_at.split('T')[0] }}</p>
+                    <p class="text text-[#4A5565] !text-sm">
+                        Diikuti sejak {{ organizer.created_at.split(' ')[0] }}
+                    </p>
                 </div>
             </div>
         </router-link>

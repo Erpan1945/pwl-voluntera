@@ -11,6 +11,9 @@ import AdminDashboard from '../views/admin/AdminDashboard.vue'
 import OrganizerProfile from '@/views/OrganizerProfile.vue'
 import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
 import Login from '@/views/Login.vue';
+import DetailList from '@/views/DetailList.vue';
+import EditListName from '@/views/EditListName.vue';
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,8 +56,8 @@ const router = createRouter({
       component: UserFollowingView,
     },
     {
-      path: '/DaftarSaya',
-      name: 'DaftarSaya',
+      path: '/activity_lists',
+      name: 'activity_lists',
       component: ActivityList,
     },
     {
@@ -71,6 +74,16 @@ const router = createRouter({
       path: '/follower/:id',
       name: 'OrganizerFollower',
       component: OrganizerFollowerView,
+    },
+    {
+      path: '/activity_lists/:id',
+      name: 'DetailDaftar',
+      component: DetailList
+    },
+    {
+      path: "/activity_lists/:id/edit",
+      name: "EditListName",
+      component: EditListName,
     },
   ]
 });
