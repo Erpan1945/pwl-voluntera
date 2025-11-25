@@ -3,6 +3,10 @@ import HomeView from '../views/HomeView.vue'
 import UserFollowingView from '@/views/UserFollowingView.vue'
 import ActivityList from '@/views/ActivityList.vue'
 import FormDaftarBaru from '@/views/FormDaftarBaru.vue';
+import LandingPage from '../views/LandingPage.vue'
+import LoginPage from '../views/auth/LoginPage.vue'
+import RegisterPage from '../views/auth/RegisterPage.vue'
+import AdminDashboard from '../views/admin/AdminDashboard.vue'
 
 import OrganizerProfile from '@/views/OrganizerProfile.vue'
 import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
@@ -12,9 +16,28 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/', 
-      name: 'home',
-      component: HomeView,
+      path: '/',
+      name: 'landing',
+      component: LandingPage,
+      meta: { requiresGuest: true }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginPage,
+      meta: { requiresGuest: true }
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: RegisterPage,
+      meta: { requiresGuest: true }
+    },
+    {
+      path: '/admin/dashboard',
+      name: 'admin-dashboard',
+      component: AdminDashboard,
+      meta: { requiresAuth: true, role: 'admin' }
     },
     {
       path: '/about',
@@ -48,11 +71,6 @@ const router = createRouter({
       path: '/follower',
       name: 'OrganizerFollower',
       component: OrganizerFollowerView,
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login,
     },
   ]
 });
