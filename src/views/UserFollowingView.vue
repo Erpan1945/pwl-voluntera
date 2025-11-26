@@ -9,12 +9,29 @@
 
     import { onMounted, computed } from 'vue';
     import { useFollowingStore } from '@/stores/followings';
+    import { useAuthStore } from '@/stores/auth';
+    import router from '@/router';
 
     const followingStore = useFollowingStore();
+    const authStore = useAuthStore();
+
+    if(!authStore.isLoggedIn){
+        alert("Anda Belum Login.");
+        router.push('/loginCoba')
+    }
+
+    if(authStore.userType!=="volunteer"){
+        alert("Anda Tidak Memiliki Akses.");
+        router.push('/loginCoba')
+    }
+
     onMounted(() => {
         followingStore.fetchFollowing()
+        authStore.fetchUserProfile()
     })
     const totalFollowing = computed(() => followingStore.followingList.length)
+    
+    
 </script>
 
 <template>
