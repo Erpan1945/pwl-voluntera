@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import UserFollowingView from '@/views/UserFollowingView.vue'
 import ActivityList from '@/views/ActivityList.vue'
 import FormDaftarBaru from '@/views/FormDaftarBaru.vue';
@@ -7,6 +6,7 @@ import LandingPage from '../views/LandingPage.vue'
 import LoginPage from '../views/auth/LoginPage.vue'
 import RegisterPage from '../views/auth/RegisterPage.vue'
 import AdminDashboard from '../views/admin/AdminDashboard.vue'
+import JelajahiKegiatan from '@/views/JelajahiKegiatan.vue'
 
 import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
 import Login from '@/views/Login.vue';
@@ -96,6 +96,12 @@ const router = createRouter({
       name: "activity-detail",
       component: ActivityDetail
     },
+    
+    {
+      path: '/jelajahi',
+      name: 'JelajahiKegiatan',
+      component: JelajahiKegiatan,
+    }
   ]
 });
 

@@ -5,8 +5,9 @@ import { getActivityDetail } from "@/services/listServices"
 import { useFollowingStore } from "@/stores/followings"
 import Navbar from "@/components/Navbar.vue"
 
-const route = useRoute()
-const activityId = route.params.id
+// Components
+import SavetoListButton from "@/components/SavetoListButton.vue"
+import PopUpActivityList from "@/components/PopUpActivityList.vue"
 
 const activity = ref(null)
 const loading = ref(true)
@@ -33,6 +34,16 @@ const handleFollow = ($data) => {
 }
 
 
+// Popup State
+const showPopup = ref(false)
+
+const openPopup = () => {
+  showPopup.value = true
+}
+
+const closePopup = () => {
+  showPopup.value = false
+}
 </script>
 
 <template>
@@ -101,7 +112,28 @@ const handleFollow = ($data) => {
                 </div>
 
               </div>
+    <h1 class="text-2xl font-bold mb-6">
+      Halaman Detail Aktivitas (Dummy)
+    </h1>
 
+    <!-- Posisi tombol di kanan -->
+    <div class="w-full flex justify-end relative">
+
+      <!-- BUTTON -->
+      <SavetoListButton @open-popup="openPopup" />
+
+      <!-- POPUP (posisi absolute terhadap container ini) -->
+      <PopUpActivityList
+        v-if="showPopup"
+        @close="closePopup"
+        class="absolute top-full right-0 mt-2"
+      >
+        <p class="text-gray-700">
+          Ini isi popup. Nanti bisa diganti pilihan list.
+        </p>
+      </PopUpActivityList>
+
+    </div>
     </div>
 
   </div>
