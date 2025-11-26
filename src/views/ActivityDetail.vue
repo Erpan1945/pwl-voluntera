@@ -1,49 +1,45 @@
 <script setup>
-import { ref, onMounted } from "vue"
-import { useRoute } from "vue-router"
-import { getActivityDetail } from "@/services/listServices"
+import { ref } from "vue"
 
-const route = useRoute()
-const activityId = route.params.id
+// Components
+import SavetoListButton from "@/components/SavetoListButton.vue"
+import PopUpActivityList from "@/components/PopUpActivityList.vue"
 
-const activity = ref(null)
-const loading = ref(true)
+// Popup State
+const showPopup = ref(false)
 
-onMounted(async () => {
-  try {
-    const res = await getActivityDetail(activityId)
-    activity.value = res.data.data
-  } finally {
-    loading.value = false
-  }
-})
+const openPopup = () => {
+  showPopup.value = true
+}
+
+const closePopup = () => {
+  showPopup.value = false
+}
 </script>
 
 <template>
   <div class="p-10">
 
-    <div v-if="loading">Memuat detail kegiatan...</div>
+    <h1 class="text-2xl font-bold mb-6">
+      Halaman Detail Aktivitas (Dummy)
+    </h1>
 
-    <div v-else-if="activity">
+    <!-- Posisi tombol di kanan -->
+    <div class="w-full flex justify-end relative">
 
-      <h1 class="text-2xl font-bold mb-4">{{ activity.title }}</h1>
+      <!-- BUTTON -->
+      <SavetoListButton @open-popup="openPopup" />
 
-      <img
-        :src="activity.thumbnail"
-        alt=""
-        class="w-full h-64 object-cover rounded-lg mb-6"
-      />
-
-      <p class="text-gray-700 mb-4">
-        {{ activity.description }}
-      </p>
-
-      <div class="text-gray-600 space-y-1">
-        <p><strong>Lokasi:</strong> {{ activity.location }}</p>
-        <p><strong>Status:</strong> {{ activity.status }}</p>
-        <p><strong>Tanggal Mulai:</strong> {{ activity.activity_start_date }}</p>
-        <p><strong>Tanggal Selesai:</strong> {{ activity.activity_end_date }}</p>
-      </div>
+      <!-- POPUP (posisi absolute terhadap container ini) -->
+      <PopUpActivityList
+        v-if="showPopup"
+        @close="closePopup"
+        class="absolute top-full right-0 mt-2"
+      >
+        <p class="text-gray-700">
+          Ini isi popup. Nanti bisa diganti pilihan list.
+        </p>
+      </PopUpActivityList>
 
     </div>
 
