@@ -6,7 +6,7 @@ import LandingPage from '../views/LandingPage.vue'
 import LoginPage from '../views/auth/LoginPage.vue'
 import RegisterPage from '../views/auth/RegisterPage.vue'
 import AdminDashboard from '../views/admin/AdminDashboard.vue'
-import JelajahiKegiatan from '@/views/JelajahiKegiatan.vue'
+import JelajahiKegiatan from '@/views/jelajahiKegiatan.vue';
 
 import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
 import Login from '@/views/Login.vue';

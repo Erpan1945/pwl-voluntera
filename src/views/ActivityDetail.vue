@@ -13,6 +13,9 @@ const activity = ref(null)
 const loading = ref(true)
 const followingStore = useFollowingStore();
 
+const route = useRoute();
+const activityId = route.params.id;
+
 onMounted(async () => {
   try {
     const res = await getActivityDetail(activityId)
@@ -65,6 +68,24 @@ const closePopup = () => {
 
                 <h1 class="text-2xl font-bold mb-4">{{ activity.title }}</h1>
 
+                <!-- Posisi tombol di kanan -->
+                <div class="w-full flex justify-end relative">
+
+                  <!-- BUTTON -->
+                  <SavetoListButton @open-popup="openPopup" />
+
+                  <!-- POPUP (posisi absolute terhadap container ini) -->
+                  <PopUpActivityList
+                    v-if="showPopup"
+                    @close="closePopup"
+                    class="absolute top-full right-0 mt-2"
+                  >
+                    <p class="text-gray-700">
+                      Ini isi popup. Nanti bisa diganti pilihan list.
+                    </p>
+                  </PopUpActivityList>
+                </div>
+
                 <img
                   :src="activity.thumbnail"
                   alt=""
@@ -112,28 +133,6 @@ const closePopup = () => {
                 </div>
 
               </div>
-    <h1 class="text-2xl font-bold mb-6">
-      Halaman Detail Aktivitas (Dummy)
-    </h1>
-
-    <!-- Posisi tombol di kanan -->
-    <div class="w-full flex justify-end relative">
-
-      <!-- BUTTON -->
-      <SavetoListButton @open-popup="openPopup" />
-
-      <!-- POPUP (posisi absolute terhadap container ini) -->
-      <PopUpActivityList
-        v-if="showPopup"
-        @close="closePopup"
-        class="absolute top-full right-0 mt-2"
-      >
-        <p class="text-gray-700">
-          Ini isi popup. Nanti bisa diganti pilihan list.
-        </p>
-      </PopUpActivityList>
-
-    </div>
     </div>
 
   </div>
