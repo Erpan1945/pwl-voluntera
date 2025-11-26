@@ -38,7 +38,7 @@
                 <div>
                     <h1 class="text text-black !text-base md:!text-sm">{{ organizer.name }}</h1>
                     <p class="text text-[#4A5565] !text-sm">
-                        Diikuti sejak {{ organizer.created_at.split(' ')[0] }}
+                        Diikuti sejak {{ organizer.pivot.created_at.substring(0, 10) }}
                     </p>
                 </div>
             </div>
