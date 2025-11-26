@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full bg-white rounded-2xl shadow-md border overflow-hidden cursor-pointer hover:shadow-lg transition"
+    class="relative w-full bg-white rounded-2xl shadow-md border overflow-hidden cursor-pointer hover:shadow-lg transition"
     @click="goToDetail"
   >
     <!-- TOP IMAGE -->
@@ -11,14 +11,14 @@
         class="w-full h-full object-cover"
       />
 
-      <!-- STATUS BADGE (KUNING) -->
+      <!-- STATUS BADGE -->
       <div
         class="absolute top-3 left-3 bg-yellow-400 text-xs font-medium text-white py-1 px-3 rounded-full shadow"
       >
         {{ status }}
       </div>
 
-      <!-- CATEGORY BADGE (PUTIH KONTUR) -->
+      <!-- CATEGORY BADGE -->
       <div
         class="absolute top-3 right-3 bg-white text-xs font-medium border border-gray-200 py-1 px-3 rounded-full shadow"
       >
@@ -29,12 +29,8 @@
     <!-- BOTTOM CONTENT -->
     <div class="p-5">
 
-      <!-- TITLE -->
-      <h2 class="text-lg font-bold mb-1">
-        {{ title }}
-      </h2>
+      <h2 class="text-lg font-bold mb-1">{{ title }}</h2>
 
-      <!-- DESCRIPTION -->
       <p class="text-sm text-gray-600 mb-4 line-clamp-2">
         {{ description }}
       </p>
@@ -59,20 +55,25 @@
 
       <div class="flex justify-between items-center border-t pt-3">
 
-        <!-- RATING -->
         <div class="flex items-center text-sm text-gray-700">
           <img src="@/assets/ReviewIcon.svg" class="w-4 h-4 mr-1" />
           {{ rating }}
           <span class="text-gray-500 text-xs ml-1">({{ reviews }})</span>
         </div>
 
-        <!-- ORGANIZER -->
         <p class="text-xs font-medium text-gray-500">
           {{ organizer }}
         </p>
       </div>
-
     </div>
+
+    <!-- 🔥 BUTTON HAPUS DI KANAN BAWAH -->
+    <button
+      class="absolute bottom-3 right-3 bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded"
+      @click.stop="emitDelete"
+    >
+      Hapus
+    </button>
   </div>
 </template>
 
@@ -97,13 +98,19 @@ const props = defineProps({
   organizer: String,
 });
 
+// Emit ke parent
+const emit = defineEmits(["delete"]);
+
 const goToDetail = () => {
   router.push(`/activities/${props.id}`);
+};
+
+const emitDelete = () => {
+  emit("delete", props.id);
 };
 </script>
 
 <style scoped>
-/* line clamp 2 */
 .line-clamp-2 {
   overflow: hidden;
   display: -webkit-box;
