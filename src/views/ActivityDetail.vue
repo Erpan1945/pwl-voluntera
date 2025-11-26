@@ -1,8 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue"
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { getActivityDetail } from "@/services/listServices"
 import { useFollowingStore } from "@/stores/followings"
+import { useAuthStore } from '@/stores/auth';
 import Navbar from "@/components/Navbar.vue"
 import { useMarkahStore } from "@/stores/lists";
 
@@ -15,8 +16,10 @@ const markahStore = useMarkahStore();
 const activity = ref(null)
 const loading = ref(true)
 const followingStore = useFollowingStore();
+const authStore = useAuthStore();
 
 const route = useRoute();
+const router = useRouter();
 const activityId = route.params.id;
 
 onMounted(async () => {
@@ -43,10 +46,15 @@ const handleUnfollow = (async ($id) => {
 })
 
 const handleFollow = (async ($data) => {
-  try{
-    await followingStore.addFollow($data);
-  }finally{
-    alert("Anda berhasil mengikuti penyelenggara")
+  if(authStore.userType !== "volunteer"){
+    alert("Penyelenggara Tidak Dapat mengikuti Penyelenggara Lain. Silakan Login Sebagai Volunteer")
+    return router.push('/loginCoba')
+  }else{
+    try{
+      await followingStore.addFollow($data);
+    }finally{
+      alert("Anda berhasil mengikuti penyelenggara")
+    }
   }
 })
 

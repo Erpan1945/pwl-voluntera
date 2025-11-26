@@ -7,13 +7,15 @@
     import ReviewCard from '@/components/ReviewCard.vue';
     import FollowedOrganizerCard from '@/components/FollowedOrganizerCard.vue';
 
-    import { onMounted, computed } from 'vue';
+    import { onMounted, computed, ref } from 'vue';
     import { useFollowingStore } from '@/stores/followings';
     import { useAuthStore } from '@/stores/auth';
     import router from '@/router';
 
     const followingStore = useFollowingStore();
     const authStore = useAuthStore();
+
+    const isLoading = ref(true);
 
     onMounted(async () => {
         await authStore.fetchUserProfile();
@@ -26,6 +28,7 @@
             return router.push('/loginCoba')
         }
         await followingStore.fetchFollowing()
+        isLoading.value = false
     })
     const totalFollowing = computed(() => followingStore.followingList.length) 
     
@@ -33,7 +36,13 @@
 
 <template>
     <Navbar />
-    <div class="w-full flex flex-col">
+
+    <div v-if="isLoading" class="text-center py-20 text-gray-500">
+        Memuat data...
+    </div>
+
+
+    <div v-else class="w-full flex flex-col">
        <WelcomeCard />
        <div class="w-full max-w-9/10 !mx-auto flex !space-x-4">
           <ActivityCard />

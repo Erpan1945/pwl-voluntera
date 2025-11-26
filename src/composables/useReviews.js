@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { mockReviews } from '@/data/mockData'
 import { useActivities } from './useActivities'
 import { useEnrollments } from './useEnrollments'
@@ -10,77 +10,38 @@ export function useReviews() {
   const { activities } = useActivities()
   const { enrollments } = useEnrollments()
 
-  // ============================================
-  // METHODS
-  // ============================================
-
-  /**
-   * Get reviews by activity
-   * @param {string} activityId
-   * @returns {Array}
-   */
   const getReviewsByActivity = (activityId) => {
     return reviews.value
       .filter(r => r.activityId === activityId)
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   }
 
-  /**
-   * Get reviews by volunteer
-   * @param {string} volunteerId
-   * @returns {Array}
-   */
   const getReviewsByVolunteer = (volunteerId) => {
     return reviews.value.filter(r => r.volunteerId === volunteerId)
   }
 
-  /**
-   * Check if volunteer already reviewed activity
-   * @param {string} volunteerId
-   * @param {string} activityId
-   * @returns {boolean}
-   */
   const hasReviewed = (volunteerId, activityId) => {
     return reviews.value.some(
       r => r.volunteerId === volunteerId && r.activityId === activityId
     )
   }
 
-  /**
-   * Check if volunteer can review (must be accepted)
-   * @param {string} volunteerId
-   * @param {string} activityId
-   * @returns {boolean}
-   */
   const canReview = (volunteerId, activityId) => {
-    // Check if enrollment is accepted
     const enrollment = enrollments.value.find(
-      e => e.volunteerId === volunteerId && 
-           e.activityId === activityId && 
+      e => e.volunteerId === volunteerId &&
+           e.activityId === activityId &&
            e.status === 'accepted'
     )
 
     if (!enrollment) return false
-
-    // Check if not already reviewed
     return !hasReviewed(volunteerId, activityId)
   }
 
-  /**
-   * Create new review
-   * @param {Object} data - { activityId, activityTitle, volunteerId, volunteerName, rating, comment }
-   * @returns {Object} { success, message, review }
-   */
   const createReview = (data) => {
-    // Check if can review
     if (!canReview(data.volunteerId, data.activityId)) {
-      return {
-        success: false,
-        message: 'Anda hanya bisa review kegiatan yang sudah Anda ikuti'
-      }
+      return { success: false, message: 'Anda hanya bisa review kegiatan yang Anda ikuti.' }
     }
 
-    // Create review
     const newReview = {
       id: `review-${Date.now()}`,
       activityId: data.activityId,
@@ -93,73 +54,66 @@ export function useReviews() {
     }
 
     reviews.value.push(newReview)
-
-    // Update activity rating
     updateActivityRating(data.activityId)
+
+    return { success: true, message: 'Review berhasil ditambahkan', review: newReview }
+  }
+
+  // 🔥 NEW — Update review
+  const updateReview = (reviewId, data) => {
+    const index = reviews.value.findIndex(r => r.id === reviewId)
+    if (index === -1) {
+      return { success: false, message: 'Review tidak ditemukan' }
+    }
+
+    reviews.value[index] = {
+      ...reviews.value[index],
+      rating: data.rating ?? reviews.value[index].rating,
+      comment: data.comment ?? reviews.value[index].comment,
+      updatedAt: new Date().toISOString()
+    }
+
+    updateActivityRating(reviews.value[index].activityId)
 
     return {
       success: true,
-      message: 'Review berhasil ditambahkan',
-      review: newReview
+      message: 'Review berhasil diperbarui',
+      updatedReview: reviews.value[index]
     }
   }
 
-  /**
-   * Calculate average rating for activity
-   * @param {string} activityId
-   * @returns {number}
-   */
   const calculateAverageRating = (activityId) => {
     const activityReviews = getReviewsByActivity(activityId)
-    
     if (activityReviews.length === 0) return 0
 
-    const sum = activityReviews.reduce((acc, review) => acc + review.rating, 0)
+    const sum = activityReviews.reduce((acc, r) => acc + r.rating, 0)
     return Math.round((sum / activityReviews.length) * 10) / 10
   }
 
-  /**
-   * Update activity rating and review count
-   * @param {string} activityId
-   */
   const updateActivityRating = (activityId) => {
-    const activityIndex = activities.value.findIndex(a => a.id === activityId)
-    
-    if (activityIndex === -1) return
+    const idx = activities.value.findIndex(a => a.id === activityId)
+    if (idx === -1) return
 
     const activityReviews = getReviewsByActivity(activityId)
-    const avgRating = calculateAverageRating(activityId)
-
-    activities.value[activityIndex] = {
-      ...activities.value[activityIndex],
-      rating: avgRating,
+    activities.value[idx] = {
+      ...activities.value[idx],
+      rating: calculateAverageRating(activityId),
       reviewCount: activityReviews.length
     }
   }
 
-  /**
-   * Get review by ID
-   * @param {string} reviewId
-   * @returns {Object|null}
-   */
-  const getReviewById = (reviewId) => {
-    return reviews.value.find(r => r.id === reviewId) || null
+  const getReviewById = (id) => {
+    return reviews.value.find(r => r.id === id) || null
   }
 
-  // ============================================
-  // RETURN
-  // ============================================
-
   return {
-    // State
     reviews,
-    
-    // Methods
     getReviewsByActivity,
     getReviewsByVolunteer,
     hasReviewed,
     canReview,
     createReview,
+    updateReview, // <-- required
     calculateAverageRating,
     getReviewById
   }
