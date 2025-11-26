@@ -1,6 +1,3 @@
-ActivityFormModal.vue     componet
-
-
 <script setup>
 import { ref, defineEmits, defineProps, watch, computed } from 'vue';
 

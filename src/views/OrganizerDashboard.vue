@@ -8,7 +8,7 @@ import { Calendar, Users, Clock, CheckCircle, Edit, Trash2, Plus, Eye, Star } fr
 const activityStore = useActivityStore();
 const isModalOpen = ref(false);
 const selectedActivity = ref(null);
-const activeTab = ref('kegiatanSaya'); 
+const activeTab = ref('permohonan'); // Default active tab
 
 // --- FILTER DATA ---
 const myActivities = computed(() => 
@@ -52,16 +52,16 @@ const handleDelete = (id) => {
     }
 }
 
-// --- FUNGSI HANDLE PUBLISH (UPDATE) ---
+// --- LOGIKA PUBLISH (DIPERBARUI) ---
 const handlePublish = (id) => {
     if(confirm('Publikasikan kegiatan ini?')) {
-        // 1. Update status di store menjadi "Sudah Dipublikasikan"
+        // 1. Update status di Store (menjadi "Sudah Dipublikasikan")
         activityStore.publishActivity(id);
         
-        // 2. Langsung pindah tab ke "Kegiatan Saya"
+        // 2. Langsung Pindah Tab ke "Kegiatan Saya"
         activeTab.value = 'kegiatanSaya';
-
-        // (Opsional) Scroll ke atas agar user melihat perpindahan tab
+        
+        // 3. Scroll ke atas agar user sadar tab berubah
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
@@ -71,14 +71,14 @@ const handlePublish = (id) => {
     <div class="min-h-screen bg-[#F9FAFB] pb-32">
         <Navbar />
         
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12 flex flex-col gap-10">
             
-            <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 mb-10">
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                 <h1 class="text-4xl font-bold text-gray-900 tracking-tight mb-2">Dashboard Penyelenggara</h1>
                 <p class="text-lg text-gray-500">Yayasan Peduli Sesama</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center hover:shadow-md transition-all duration-300">
                     <div><p class="text-gray-500 text-sm font-medium mb-1">Total Kegiatan</p><h2 class="text-4xl font-bold text-gray-900">{{ activityStore.activities.length }}</h2></div>
                     <div class="p-3 bg-blue-50 rounded-xl text-blue-600"><Calendar class="w-7 h-7" /></div>
@@ -97,7 +97,7 @@ const handlePublish = (id) => {
                 </div>
             </div>
 
-            <div class="flex flex-wrap items-center gap-6 mb-10">
+            <div class="flex flex-wrap items-center gap-6">
                 <button 
                     @click="activeTab = 'kegiatanSaya'"
                     :class="[
@@ -176,8 +176,8 @@ const handlePublish = (id) => {
                 </div>
             </div>
 
-            <div v-if="activeTab === 'permohonan'">
-                <div class="mb-8">
+            <div v-if="activeTab === 'permohonan'" class="flex flex-col gap-8">
+                <div>
                     <button @click="openCreateModal" class="flex items-center gap-3 bg-[#155DFC] text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/30 transform hover:-translate-y-0.5">
                         <Plus class="w-6 h-6" />
                         Buat Permohonan Kegiatan Baru

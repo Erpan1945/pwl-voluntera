@@ -1,12 +1,9 @@
-
-
-
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const useActivityStore = defineStore('activity', () => {
     const activities = ref([
-        // --- Data Tab: Kegiatan Saya (Status: Aktif) ---
+        // --- DATA DUMMY: Kegiatan Saya (Status: Aktif) ---
         {
             id: 101,
             title: "Bimbingan Belajar Gratis Untuk SD",
@@ -18,16 +15,17 @@ export const useActivityStore = defineStore('activity', () => {
             location: "Ruang Serbaguna RW 05",
             status: "Aktif", 
             publishStatus: "Sudah Dipublikasikan",
-            image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
-            applicants: 0,
+            // Gambar Buku/Belajar
+            image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80",
+            applicants: 12,
             applicantsMax: 30,
-            waiting: 0,
+            waiting: 2,
             rating: 4.8
         },
         {
             id: 102,
             title: "Bakti Sosial Bersih-bersih Sungai",
-            description: "Mari bersama-sama membersihkan sungai dari sampah plastik dan limbah. Kegiatan ini bertujuan...",
+            description: "Mari bersama-sama membersihkan sungai dari sampah plastik dan limbah agar lingkungan menjadi lebih asri.",
             date: "2025-03-10",
             time: "07:00",
             capacity: 50,
@@ -35,7 +33,8 @@ export const useActivityStore = defineStore('activity', () => {
             location: "Sungai Ciliwung",
             status: "Aktif",
             publishStatus: "Sudah Dipublikasikan",
-            image: "https://images.unsplash.com/photo-1618477461853-586068ad82c6?auto=format&fit=crop&w=800&q=80",
+            // SAYA GANTI LINK GAMBAR INI (Orang membersihkan sampah)
+            image: "https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=800&q=80",
             applicants: 38,
             applicantsMax: 50,
             waiting: 0,
@@ -52,6 +51,7 @@ export const useActivityStore = defineStore('activity', () => {
             location: "PMI Pusat",
             status: "Aktif",
             publishStatus: "Sudah Dipublikasikan",
+            // Gambar Donor Darah
             image: "https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=800&q=80",
             applicants: 67,
             applicantsMax: 100,
@@ -59,7 +59,7 @@ export const useActivityStore = defineStore('activity', () => {
             rating: 4.9
         },
 
-        // --- Data Tab: Permohonan Kegiatan (Status: Disetujui / Menunggu) ---
+        // --- DATA DUMMY: Permohonan Kegiatan ---
         {
             id: 1,
             title: "Pelatihan Komputer Dasar",
@@ -105,7 +105,8 @@ export const useActivityStore = defineStore('activity', () => {
             applicantsMax: activity.capacity,
             waiting: 0,
             rating: 0,
-            image: activity.photoUrl || 'https://via.placeholder.com/400x200'
+            // Default gambar jika user tidak isi URL foto saat buat baru
+            image: activity.photoUrl || 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80'
         });
     };
 
@@ -120,17 +121,14 @@ export const useActivityStore = defineStore('activity', () => {
         activities.value = activities.value.filter(a => a.id !== id);
     };
 
-    // --- PERBAIKAN FUNGSI PUBLISH ---
+    // --- FUNGSI PUBLISH ---
     const publishActivity = (id) => {
         const activity = activities.value.find(a => a.id === id);
         if (activity) {
-            // JANGAN ubah status jadi 'Aktif', agar tetap stay di list Permohonan
-            // Kita hanya ubah publishStatus-nya
             activity.publishStatus = "Sudah Dipublikasikan";
-            
-            // Berikan gambar default jika belum ada (agar tampil bagus di Grid)
+            // Jika belum ada gambar, kasih gambar default
             if (!activity.image) {
-                activity.image = "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80";
+                activity.image = "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80";
             }
         }
     };
