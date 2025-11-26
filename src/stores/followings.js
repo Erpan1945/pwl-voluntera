@@ -31,7 +31,7 @@ export const useFollowingStore = defineStore('following', () => {
   const addFollow = async (data) => {
     try {
       await createFollow(data);
-      await fetchFollowing(); // refresh list
+      await fetchFollowing(); 
     } catch (error) {
       console.error(error);
     }
@@ -41,7 +41,7 @@ export const useFollowingStore = defineStore('following', () => {
   const notifyFollow = async (id, data) => {
     try {
       await updateFollow(id, data);
-      await fetchFollowing(); // optional refresh
+      await fetchFollowing(); 
     } catch (error) {
       console.error(error);
     }
@@ -51,7 +51,7 @@ export const useFollowingStore = defineStore('following', () => {
   const removeFollow = async (id) => {
     try {
       await unfollow(id);
-      await fetchFollowing(); // refresh list
+      await fetchFollowing(); 
     } catch (error) {
       console.error(error);
     }

@@ -28,7 +28,7 @@
           <p class="text-base font-medium">Profile</p>
 
           <div class="w-[1px] h-[20px]" style="background-color: #4A5565;"></div>
-          <p class="text-base font-medium">{{ userName }}</p>
+          <p class="text-base font-medium">{{ auth.user?.name }}</p>
         </button>
 
         <!-- KELUAR -->
@@ -48,6 +48,7 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
 
@@ -55,12 +56,15 @@ const router = useRouter();
 const auth = useAuthStore();
 
 const isLoggedIn = auth.isLoggedIn;
-const userName = auth.user.name;
 
 const handleLogout = () => {
   auth.logout();
   router.push("/logincoba");
 };
+
+onMounted(() => {
+    auth.fetchUserProfile();
+});
 </script>
 
 <style scoped>

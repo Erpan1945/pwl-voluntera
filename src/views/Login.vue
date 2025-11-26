@@ -8,7 +8,6 @@
 </template>
 
 <script setup>
-    //BUKAN FIX LOGIN YA.... INI ABAL-ABAL.
     import { ref } from 'vue';
     import { useAuthStore } from '../stores/auth';
     import { useRouter } from 'vue-router';
@@ -23,7 +22,11 @@
         await authStore.login({ email: email.value, password:
         password.value });
         alert('Login berhasil!');
-        router.push('/following'); // redirect setelah login sukses
+        if(authStore.userType=="volunteer"){
+             router.push('/following');
+        }else{
+            router.push('/')
+        }
     } catch (err) {
         alert('Login gagal!');
         console.error(err);
