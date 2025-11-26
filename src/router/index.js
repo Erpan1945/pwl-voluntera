@@ -1,12 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import UserFollowingView from '@/views/UserFollowingView.vue'
 import ActivityList from '@/views/ActivityList.vue'
 import FormDaftarBaru from '@/views/FormDaftarBaru.vue';
 import LandingPage from '../views/LandingPage.vue'
 import LoginPage from '../views/auth/LoginPage.vue'
 import RegisterPage from '../views/auth/RegisterPage.vue'
+import LoginPageTest from '../views/auth/LoginPageTest.vue'
 import AdminDashboard from '../views/admin/AdminDashboard.vue'
+import VolunteerDashboard from '../views/volunteer/VolunteerDashboard.vue'
+import ProfilePage from '../views/ProfilePage.vue'
+import NotFoundPage from '../views/NotFoundPage.vue'
+import JelajahiKegiatan from '@/views/jelajahiKegiatan.vue'
 
 import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
 import Login from '@/views/Login.vue';
@@ -15,8 +19,6 @@ import EditListName from '@/views/EditListName.vue';
 import ActivityDetail from '@/views/ActivityDetail.vue';
 import VolunteerOrganizerProfile from '@/views/VolunteerOrganizerProfile.vue';
 import OrganizerDashboard from '@/views/OrganizerDashboard.vue';
-
-
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +36,11 @@ const router = createRouter({
       meta: { requiresGuest: true }
     },
     {
+      path: '/login-test',
+      name: 'login-test',
+      component: LoginPageTest
+    },
+    {
       path: '/register',
       name: 'register',
       component: RegisterPage,
@@ -46,11 +53,20 @@ const router = createRouter({
       meta: { requiresAuth: true, role: 'admin' }
     },
     {
+      path: '/volunteer/dashboard',
+      name: 'volunteer-dashboard',
+      component: VolunteerDashboard,
+      meta: { requiresAuth: true, role: 'volunteer' }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfilePage,
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
     {
@@ -102,7 +118,18 @@ const router = createRouter({
       path: '/organizer-dashboard',
       name: 'OrganizerDashboard',
       component: OrganizerDashboard,
+    },    
+    {
+      path: '/jelajahi',
+      name: 'JelajahiKegiatan',
+      component: JelajahiKegiatan,
     },
+    // Pastikan rute wildcard (404) selalu ditaruh paling bawah
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: NotFoundPage
+    }
   ]
 });
 
