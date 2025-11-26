@@ -60,5 +60,10 @@ export const useFollowingStore = defineStore('following', () => {
   //total following user
   const totalFollowing = computed(() => followingList.value.length);
 
-  return { followingList, followerList, totalFollowing, fetchFollowing, fetchFollower, addFollow, notifyFollow, removeFollow };
+  //cek following
+  const isFollowing = (organizerId) => {
+    return followingList.value.some(item => item.organizer_id === organizerId);
+  };
+
+  return { followingList, followerList, totalFollowing, fetchFollowing, fetchFollower, addFollow, notifyFollow, removeFollow, isFollowing };
 });
