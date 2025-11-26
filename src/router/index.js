@@ -18,6 +18,7 @@ import DetailList from '@/views/DetailList.vue';
 import EditListName from '@/views/EditListName.vue';
 import ActivityDetail from '@/views/ActivityDetail.vue';
 import VolunteerOrganizerProfile from '@/views/VolunteerOrganizerProfile.vue';
+import OrganizerProfile from '@/views/OrganizerProfile.vue';
 
 
 const router = createRouter({
@@ -121,12 +122,16 @@ const router = createRouter({
       path: "/activities/:id",
       name: "activity-detail",
       component: ActivityDetail
-    },
-    
+    },    
     {
       path: '/jelajahi',
       name: 'JelajahiKegiatan',
-      component: JelajahiKegiatan,
+      component: JelajahiKegiatan
+    },
+    {
+      path: '/profile/organizer/me',
+      name: 'Profile Saya',
+      component: OrganizerProfile
     }
   ]
 });
