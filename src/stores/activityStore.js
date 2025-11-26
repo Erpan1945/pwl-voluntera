@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import axios from 'axios'; // Import axios
 
 export const useActivityStore = defineStore('activity', () => {
+    // 1. Definisi State (Data Dummy)
     const activities = ref([
         // --- DATA DUMMY: Kegiatan Saya (Status: Aktif) ---
         {
@@ -15,7 +17,6 @@ export const useActivityStore = defineStore('activity', () => {
             location: "Ruang Serbaguna RW 05",
             status: "Aktif", 
             publishStatus: "Sudah Dipublikasikan",
-            // Gambar Buku/Belajar
             image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80",
             applicants: 12,
             applicantsMax: 30,
@@ -33,7 +34,6 @@ export const useActivityStore = defineStore('activity', () => {
             location: "Sungai Ciliwung",
             status: "Aktif",
             publishStatus: "Sudah Dipublikasikan",
-            // SAYA GANTI LINK GAMBAR INI (Orang membersihkan sampah)
             image: "https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=800&q=80",
             applicants: 38,
             applicantsMax: 50,
@@ -51,7 +51,6 @@ export const useActivityStore = defineStore('activity', () => {
             location: "PMI Pusat",
             status: "Aktif",
             publishStatus: "Sudah Dipublikasikan",
-            // Gambar Donor Darah
             image: "https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=800&q=80",
             applicants: 67,
             applicantsMax: 100,
@@ -94,7 +93,19 @@ export const useActivityStore = defineStore('activity', () => {
             waiting: 0,
             rating: 0
         }
-    ]);
+    ]); // <--- PENUTUP ARRAY HARUS DI SINI
+
+    // 2. Definisi Actions (Fungsi)
+    // Fetch dari Database (Opsional, jika backend sudah siap)
+    const fetchActivities = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/activities');
+            // Jika ingin menimpa data dummy dengan data database:
+            // activities.value = response.data; 
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const addActivity = (activity) => {
         const newId = activities.value.length > 0 ? Math.max(...activities.value.map(a => a.id)) + 1 : 1;
@@ -105,7 +116,6 @@ export const useActivityStore = defineStore('activity', () => {
             applicantsMax: activity.capacity,
             waiting: 0,
             rating: 0,
-            // Default gambar jika user tidak isi URL foto saat buat baru
             image: activity.photoUrl || 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80'
         });
     };
@@ -121,17 +131,15 @@ export const useActivityStore = defineStore('activity', () => {
         activities.value = activities.value.filter(a => a.id !== id);
     };
 
-    // --- FUNGSI PUBLISH ---
     const publishActivity = (id) => {
         const activity = activities.value.find(a => a.id === id);
         if (activity) {
             activity.publishStatus = "Sudah Dipublikasikan";
-            // Jika belum ada gambar, kasih gambar default
             if (!activity.image) {
                 activity.image = "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80";
             }
         }
     };
 
-    return { activities, addActivity, updateActivity, removeActivity, publishActivity };
+    return { activities, addActivity, fetchActivities, updateActivity, removeActivity, publishActivity };
 });
