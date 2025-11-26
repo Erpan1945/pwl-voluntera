@@ -282,6 +282,6 @@ const confirmReject = () => {
 }
 
 const viewActivityDetail = (activity) => {
-  router.push(`/activity/${activity.id}`)
+  router.push(`/activities/${activity.id}`)
 }
 </script>

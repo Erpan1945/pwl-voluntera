@@ -47,13 +47,13 @@ const router = createRouter({
       meta: { requiresGuest: true }
     },
     {
-      path: '/admin/dashboard',
+      path: '/dashboard/admin',
       name: 'admin-dashboard',
       component: AdminDashboard,
       meta: { requiresAuth: true, role: 'admin' }
     },
     {
-      path: '/volunteer/dashboard',
+      path: '/dashboard/volunteer',
       name: 'volunteer-dashboard',
       component: VolunteerDashboard,
       meta: { requiresAuth: true, role: 'volunteer' }

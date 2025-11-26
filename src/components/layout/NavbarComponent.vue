@@ -150,7 +150,6 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useAuth } from '@/composables/useAuth'
 import { 
   Heart, 
   LayoutDashboard, 
@@ -164,14 +163,28 @@ import LogoComponent from '@/components/common/LogoComponent.vue'
 import NavLink from '@/components/layout/NavLink.vue'
 import MobileNavLink from '@/components/layout/MobileNavLink.vue'
 
-const { user, isVolunteer, isOrganizer, isAdmin, handleLogout } = useAuth()
+const props = defineProps({
+  user: {
+    type: Object,
+    default: () => null
+  }
+})
+
+const emit = defineEmits(['logout'])
+
+const handleLogout = () => {
+  emit('logout')
+}
 
 // Mobile menu state
 const isMobileMenuOpen = ref(false)
 
 // Computed
+const isVolunteer = computed(() => props.user?.role === 'volunteer')
+const isOrganizer = computed(() => props.user?.role === 'organizer')
+const isAdmin = computed(() => props.user?.role === 'admin')
 const userInitial = computed(() => {
-  return user.value?.name?.charAt(0).toUpperCase() || 'U'
+  return props.user?.name?.charAt(0).toUpperCase() || 'U'
 })
 
 // Methods

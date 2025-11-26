@@ -9,13 +9,13 @@ export function useAuth() {
   // ============================================
   // COMPUTED PROPERTIES
   // ============================================
-  
+
   const isAuthenticated = computed(() => currentUser.value !== null)
-  
+
   const isVolunteer = computed(() => currentUser.value?.role === 'volunteer')
-  
+
   const isOrganizer = computed(() => currentUser.value?.role === 'organizer')
-  
+
   const isAdmin = computed(() => currentUser.value?.role === 'admin')
 
   // ============================================
@@ -51,26 +51,26 @@ export function useAuth() {
     if (!email || !password) {
       return {
         success: false,
-        message: 'Email dan password harus diisi'
-      };
+        message: 'Email dan password harus diisi',
+      }
     }
 
     // Find user in mock data
-    const user = users.value.find(u => u.email === email && u.password === password);
+    const user = users.value.find((u) => u.email === email && u.password === password)
 
     if (user) {
-      currentUser.value = user;
-      localStorage.setItem('currentUser', JSON.stringify(user));
+      currentUser.value = user
+      localStorage.setItem('currentUser', JSON.stringify(user))
       // In a real app, you'd get a token from the backend
-      localStorage.setItem('token', `fake-token-for-${user.id}`);
+      localStorage.setItem('token', `fake-token-for-${user.id}`)
       return {
         success: true,
         message: 'Login berhasil',
         user: user,
-        token: `fake-token-for-${user.id}`
-      };
+        token: `fake-token-for-${user.id}`,
+      }
     } else {
-      return { success: false, message: 'Email atau password salah' };
+      return { success: false, message: 'Email atau password salah' }
     }
   }
 
@@ -84,30 +84,30 @@ export function useAuth() {
     if (!data.name || !data.email || !data.password || !data.phone || !data.city) {
       return {
         success: false,
-        message: 'Semua field wajib diisi (nama, email, password, telepon, kota)'
-      };
+        message: 'Semua field wajib diisi (nama, email, password, telepon, kota)',
+      }
     }
 
     // Validasi format email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(data.email)) {
       return {
         success: false,
-        message: 'Format email tidak valid'
-      };
+        message: 'Format email tidak valid',
+      }
     }
 
     // Validasi panjang password
     if (data.password.length < 6) {
       return {
         success: false,
-        message: 'Password minimal 6 karakter'
-      };
+        message: 'Password minimal 6 karakter',
+      }
     }
-    
+
     // Check if email already exists
-    if (users.value.some(u => u.email === data.email)) {
-      return { success: false, message: 'Email sudah terdaftar. Silakan gunakan email lain.' };
+    if (users.value.some((u) => u.email === data.email)) {
+      return { success: false, message: 'Email sudah terdaftar. Silakan gunakan email lain.' }
     }
 
     // Create new user
@@ -121,16 +121,16 @@ export function useAuth() {
       city: data.city,
       bio: data.bio || '',
       profileImage: null,
-      createdAt: new Date().toISOString()
-    };
+      createdAt: new Date().toISOString(),
+    }
 
-    users.value.push(newUser);
+    users.value.push(newUser)
 
-    return { 
-      success: true, 
-      message: 'Registrasi berhasil! Silakan login.', 
-      user: newUser 
-    };
+    return {
+      success: true,
+      message: 'Registrasi berhasil! Silakan login.',
+      user: newUser,
+    }
   }
 
   /**
@@ -143,30 +143,31 @@ export function useAuth() {
     if (!data.name || !data.email || !data.password || !data.phone || !data.address || !data.bio) {
       return {
         success: false,
-        message: 'Semua field wajib diisi (nama organisasi, email, password, telepon, alamat, deskripsi)'
-      };
+        message:
+          'Semua field wajib diisi (nama organisasi, email, password, telepon, alamat, deskripsi)',
+      }
     }
 
     // Validasi format email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(data.email)) {
       return {
         success: false,
-        message: 'Format email tidak valid'
-      };
+        message: 'Format email tidak valid',
+      }
     }
 
     // Validasi panjang password
     if (data.password.length < 6) {
       return {
         success: false,
-        message: 'Password minimal 6 karakter'
-      };
+        message: 'Password minimal 6 karakter',
+      }
     }
 
     // Check if email already exists
-    if (users.value.some(u => u.email === data.email)) {
-      return { success: false, message: 'Email sudah terdaftar. Silakan gunakan email lain.' };
+    if (users.value.some((u) => u.email === data.email)) {
+      return { success: false, message: 'Email sudah terdaftar. Silakan gunakan email lain.' }
     }
 
     // Create new user
@@ -181,27 +182,31 @@ export function useAuth() {
       website: data.website || '',
       bio: data.bio,
       profileImage: null,
-      createdAt: new Date().toISOString()
-    };
+      createdAt: new Date().toISOString(),
+    }
 
-    users.value.push(newOrganizer);
+    users.value.push(newOrganizer)
 
-    return { 
-      success: true, 
-      message: 'Registrasi organisasi berhasil! Silakan login.', 
-      user: newOrganizer 
-    };
+    return {
+      success: true,
+      message: 'Registrasi organisasi berhasil! Silakan login.',
+      user: newOrganizer,
+    }
   }
 
   /**
    * Logout current user
    */
-  const logout = () => {
+  const logout = async () => {
     currentUser.value = null
     localStorage.removeItem('currentUser')
+    localStorage.removeItem('token')
   }
 
-  /**
+  // useAuth.js
+  const isAuthLoading = ref(true) // Tambahkan state ini
+
+  /*
    * Update user profile
    * @param {Object} updates - Data to update
    * @returns {Object} { success, message }
@@ -210,18 +215,18 @@ export function useAuth() {
     if (!currentUser.value) {
       return {
         success: false,
-        message: 'User tidak ditemukan'
+        message: 'User tidak ditemukan',
       }
     }
 
     // Update current user
     currentUser.value = {
       ...currentUser.value,
-      ...updates
+      ...updates,
     }
 
     // Update in users array
-    const userIndex = users.value.findIndex(u => u.id === currentUser.value.id)
+    const userIndex = users.value.findIndex((u) => u.id === currentUser.value.id)
     if (userIndex !== -1) {
       users.value[userIndex] = currentUser.value
     }
@@ -231,7 +236,7 @@ export function useAuth() {
 
     return {
       success: true,
-      message: 'Profil berhasil diupdate'
+      message: 'Profil berhasil diupdate',
     }
   }
 
@@ -245,7 +250,7 @@ export function useAuth() {
     if (!currentUser.value) {
       return {
         success: false,
-        message: 'User tidak ditemukan'
+        message: 'User tidak ditemukan',
       }
     }
 
@@ -253,7 +258,7 @@ export function useAuth() {
     if (currentUser.value.password !== oldPassword) {
       return {
         success: false,
-        message: 'Password lama salah'
+        message: 'Password lama salah',
       }
     }
 
@@ -261,7 +266,7 @@ export function useAuth() {
     currentUser.value.password = newPassword
 
     // Update in users array
-    const userIndex = users.value.findIndex(u => u.id === currentUser.value.id)
+    const userIndex = users.value.findIndex((u) => u.id === currentUser.value.id)
     if (userIndex !== -1) {
       users.value[userIndex].password = newPassword
     }
@@ -271,7 +276,7 @@ export function useAuth() {
 
     return {
       success: true,
-      message: 'Password berhasil diubah'
+      message: 'Password berhasil diubah',
     }
   }
 
@@ -281,7 +286,7 @@ export function useAuth() {
    * @returns {Object|null}
    */
   const getUserById = (userId) => {
-    return users.value.find(u => u.id === userId) || null
+    return users.value.find((u) => u.id === userId) || null
   }
 
   // ============================================
@@ -293,13 +298,13 @@ export function useAuth() {
     currentUser,
     user: currentUser,
     users,
-    
+
     // Computed
     isAuthenticated,
     isVolunteer,
     isOrganizer,
     isAdmin,
-    
+
     // Methods
     initAuth,
     login,
@@ -309,6 +314,6 @@ export function useAuth() {
     updateProfile,
     changePassword,
     getUserById,
-    handleLogout: logout
+    handleLogout: logout,
   }
 }
