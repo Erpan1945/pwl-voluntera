@@ -8,11 +8,11 @@ import LoginPage from '../views/auth/LoginPage.vue'
 import RegisterPage from '../views/auth/RegisterPage.vue'
 import AdminDashboard from '../views/admin/AdminDashboard.vue'
 
-import OrganizerProfile from '@/views/OrganizerProfile.vue'
 import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
 import Login from '@/views/Login.vue';
 import DetailList from '@/views/DetailList.vue';
 import EditListName from '@/views/EditListName.vue';
+import VolunteerOrganizerProfile from '@/views/VolunteerOrganizerProfile.vue';
 
 
 const router = createRouter({
@@ -68,7 +68,7 @@ const router = createRouter({
     {
       path: '/OrganizerProfile/:id',
       name: 'OrganizerProfile',
-      component: OrganizerProfile,
+      component: VolunteerOrganizerProfile,
     },
     {
       path: '/follower/:id',

@@ -4,13 +4,26 @@
     import { useRouter, useRoute } from 'vue-router';
     import { ref, computed, onMounted } from 'vue';
     import { useFollowingStore } from '../stores/followings';
-    import NotificationOn from '../assets/NotificationOn.svg'
-    import NotificationOff from '../assets/NotificationOff.svg'
+    import NotificationOn from '../assets/NotificationOn.svg';
+    import NotificationOff from '../assets/NotificationOff.svg';
+    import { useAuthStore } from '@/stores/auth';
     const router = useRouter();
     const route = useRoute();
 
     function goBack() {
         router.back();
+    }
+    
+    const authStore = useAuthStore();
+
+    if(!authStore.isLoggedIn){
+        alert("Anda Belum Login.");
+        router.push('/loginCoba')
+    }
+
+    if(authStore.userType!=="volunteer"){
+        alert("Anda Tidak Memiliki Akses.");
+        router.push('/loginCoba')
     }
 
     const followingStore = useFollowingStore()
