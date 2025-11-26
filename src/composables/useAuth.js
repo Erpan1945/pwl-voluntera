@@ -22,6 +22,9 @@ export function useAuth() {
   // AUTHENTICATION METHODS
   // ============================================
 
+  // API base (set VITE_API_BASE_URL in .env to point to backend, e.g. http://localhost:8000)
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || ''
+
   /**
    * Initialize auth from localStorage
    */
@@ -43,28 +46,31 @@ export function useAuth() {
    * @param {string} password
    * @returns {Object} { success, message, user }
    */
-  const login = (email, password) => {
-    const user = users.value.find(
-      u => u.email === email && u.password === password
-    )
-
-    if (!user) {
+  const login = async (email, password) => {
+    // Validasi input
+    if (!email || !password) {
       return {
         success: false,
-        message: 'Email atau password salah'
-      }
+        message: 'Email dan password harus diisi'
+      };
     }
 
-    // Set current user
-    currentUser.value = user
-    
-    // Save to localStorage
-    localStorage.setItem('currentUser', JSON.stringify(user))
+    // Find user in mock data
+    const user = users.value.find(u => u.email === email && u.password === password);
 
-    return {
-      success: true,
-      message: 'Login berhasil',
-      user: user
+    if (user) {
+      currentUser.value = user;
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      // In a real app, you'd get a token from the backend
+      localStorage.setItem('token', `fake-token-for-${user.id}`);
+      return {
+        success: true,
+        message: 'Login berhasil',
+        user: user,
+        token: `fake-token-for-${user.id}`
+      };
+    } else {
+      return { success: false, message: 'Email atau password salah' };
     }
   }
 
@@ -73,38 +79,58 @@ export function useAuth() {
    * @param {Object} data - { name, email, password, phone, city, bio }
    * @returns {Object} { success, message, user }
    */
-  const registerVolunteer = (data) => {
-    // Check if email already exists
-    const existingUser = users.value.find(u => u.email === data.email)
-    if (existingUser) {
+  const registerVolunteer = async (data) => {
+    // Validasi input
+    if (!data.name || !data.email || !data.password || !data.phone || !data.city) {
       return {
         success: false,
-        message: 'Email sudah terdaftar'
-      }
+        message: 'Semua field wajib diisi (nama, email, password, telepon, kota)'
+      };
     }
 
-    // Create new volunteer
-    const newVolunteer = {
+    // Validasi format email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+      return {
+        success: false,
+        message: 'Format email tidak valid'
+      };
+    }
+
+    // Validasi panjang password
+    if (data.password.length < 6) {
+      return {
+        success: false,
+        message: 'Password minimal 6 karakter'
+      };
+    }
+    
+    // Check if email already exists
+    if (users.value.some(u => u.email === data.email)) {
+      return { success: false, message: 'Email sudah terdaftar. Silakan gunakan email lain.' };
+    }
+
+    // Create new user
+    const newUser = {
       id: `volunteer-${Date.now()}`,
       role: 'volunteer',
       name: data.name,
       email: data.email,
-      password: data.password,
+      password: data.password, // In a real app, hash this password
       phone: data.phone,
       city: data.city,
       bio: data.bio || '',
       profileImage: null,
       createdAt: new Date().toISOString()
-    }
+    };
 
-    // Add to users
-    users.value.push(newVolunteer)
+    users.value.push(newUser);
 
-    return {
-      success: true,
-      message: 'Registrasi berhasil! Silakan login.',
-      user: newVolunteer
-    }
+    return { 
+      success: true, 
+      message: 'Registrasi berhasil! Silakan login.', 
+      user: newUser 
+    };
   }
 
   /**
@@ -112,39 +138,59 @@ export function useAuth() {
    * @param {Object} data - { name, email, password, phone, address, website, bio }
    * @returns {Object} { success, message, user }
    */
-  const registerOrganizer = (data) => {
-    // Check if email already exists
-    const existingUser = users.value.find(u => u.email === data.email)
-    if (existingUser) {
+  const registerOrganizer = async (data) => {
+    // Validasi input
+    if (!data.name || !data.email || !data.password || !data.phone || !data.address || !data.bio) {
       return {
         success: false,
-        message: 'Email sudah terdaftar'
-      }
+        message: 'Semua field wajib diisi (nama organisasi, email, password, telepon, alamat, deskripsi)'
+      };
     }
 
-    // Create new organizer
+    // Validasi format email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+      return {
+        success: false,
+        message: 'Format email tidak valid'
+      };
+    }
+
+    // Validasi panjang password
+    if (data.password.length < 6) {
+      return {
+        success: false,
+        message: 'Password minimal 6 karakter'
+      };
+    }
+
+    // Check if email already exists
+    if (users.value.some(u => u.email === data.email)) {
+      return { success: false, message: 'Email sudah terdaftar. Silakan gunakan email lain.' };
+    }
+
+    // Create new user
     const newOrganizer = {
       id: `organizer-${Date.now()}`,
       role: 'organizer',
       name: data.name,
       email: data.email,
-      password: data.password,
+      password: data.password, // In a real app, hash this password
       phone: data.phone,
       address: data.address,
       website: data.website || '',
-      bio: data.bio || '',
+      bio: data.bio,
       profileImage: null,
       createdAt: new Date().toISOString()
-    }
+    };
 
-    // Add to users
-    users.value.push(newOrganizer)
+    users.value.push(newOrganizer);
 
-    return {
-      success: true,
-      message: 'Registrasi berhasil! Silakan login.',
-      user: newOrganizer
-    }
+    return { 
+      success: true, 
+      message: 'Registrasi organisasi berhasil! Silakan login.', 
+      user: newOrganizer 
+    };
   }
 
   /**

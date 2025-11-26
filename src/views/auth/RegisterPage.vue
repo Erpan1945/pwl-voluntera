@@ -60,13 +60,30 @@
             :required="true"
           />
 
-          <InputComponent
-            v-model="volunteerForm.password"
-            label="Password"
-            type="password"
-            placeholder="Min. 6 karakter"
-            :required="true"
-          />
+          <!-- Password Input with Show/Hide for Volunteer -->
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1 py-2.5">
+              Password
+              <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <input
+                :value="volunteerForm.password"
+                @input="volunteerForm.password = $event.target.value"
+                :type="showPasswordVolunteer ? 'text' : 'password'"
+                placeholder="Min. 6 karakter"
+                class="w-full px-4 py-2 border text-gray-700 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                type="button"
+                @click="showPasswordVolunteer = !showPasswordVolunteer"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                <Eye v-if="!showPasswordVolunteer" :size="20" />
+                <EyeOff v-else :size="20" />
+              </button>
+            </div>
+          </div>
 
           <InputComponent
             v-model="volunteerForm.phone"
@@ -88,6 +105,7 @@
             label="Bio (Opsional)"
             placeholder="Ceritakan sedikit tentang Anda..."
             :rows="3"
+            class="text-gray-700"
           />
 
           <div v-if="errors.general" class="mb-4 p-3 bg-red-50 rounded-lg">
@@ -121,13 +139,30 @@
             :required="true"
           />
 
-          <InputComponent
-            v-model="organizerForm.password"
-            label="Password"
-            type="password"
-            placeholder="Min. 6 karakter"
-            :required="true"
-          />
+          <!-- Password Input with Show/Hide for Organizer -->
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1 py-2.5">
+              Password
+              <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <input
+                :value="organizerForm.password"
+                @input="organizerForm.password = $event.target.value"
+                :type="showPasswordOrganizer ? 'text' : 'password'"
+                placeholder="Min. 6 karakter"
+                class="w-full px-4 py-2 border text-gray-700 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                type="button"
+                @click="showPasswordOrganizer = !showPasswordOrganizer"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                <Eye v-if="!showPasswordOrganizer" :size="20" />
+                <EyeOff v-else :size="20" />
+              </button>
+            </div>
+          </div>
 
           <InputComponent
             v-model="organizerForm.phone"
@@ -143,6 +178,7 @@
             placeholder="Jl. Contoh No. 123, Kota"
             :required="true"
             :rows="2"
+            class="text-gray-700"
           />
 
           <InputComponent
@@ -158,9 +194,10 @@
             placeholder="Ceritakan tentang organisasi Anda..."
             :rows="3"
             :required="true"
+            class="text-gray-700"
           />
 
-          <div v-if="errors.general" class="mb-4 p-3 bg-red-50 rounded-lg">
+          <div v-if="errors.general" class="mb-4 p-3 py-3 bg-red-50 rounded-lg">
             <p class="text-sm text-red-700">{{ errors.general }}</p>
           </div>
 
@@ -189,7 +226,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { Heart, Users, Building2, ArrowLeft } from 'lucide-vue-next'
+import { Heart, Users, Building2, ArrowLeft, Eye, EyeOff } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import CardComponent from '@/components/common/CardComponent.vue'
 import InputComponent from '@/components/common/InputComponent.vue'
@@ -206,6 +243,8 @@ const goBack = () => {
 const activeTab = ref('volunteer')
 const loading = ref(false)
 const errors = ref({})
+const showPasswordVolunteer = ref(false)
+const showPasswordOrganizer = ref(false)
 
 const volunteerForm = ref({
   name: '',
@@ -226,39 +265,114 @@ const organizerForm = ref({
   bio: ''
 })
 
-const handleRegisterVolunteer = () => {
+const handleRegisterVolunteer = async () => {
   errors.value = {}
   loading.value = true
 
-  setTimeout(() => {
-    const result = registerVolunteer(volunteerForm.value)
+  // Validasi field
+  if (!volunteerForm.value.name) {
+    errors.value.general = 'Nama wajib diisi'
+    loading.value = false
+    return
+  }
+  if (!volunteerForm.value.email) {
+    errors.value.general = 'Email wajib diisi'
+    loading.value = false
+    return
+  }
+  if (!volunteerForm.value.password) {
+    errors.value.general = 'Password wajib diisi'
+    loading.value = false
+    return
+  }
+  if (volunteerForm.value.password.length < 6) {
+    errors.value.general = 'Password minimal 6 karakter'
+    loading.value = false
+    return
+  }
+  if (!volunteerForm.value.phone) {
+    errors.value.general = 'Nomor telepon wajib diisi'
+    loading.value = false
+    return
+  }
+  if (!volunteerForm.value.city) {
+    errors.value.general = 'Kota wajib diisi'
+    loading.value = false
+    return
+  }
+
+  try {
+    const result = await registerVolunteer(volunteerForm.value)
 
     if (result.success) {
-      alert(result.message)
+      alert('Registrasi berhasil! Silakan login dengan akun Anda.')
       router.push('/login')
     } else {
       errors.value.general = result.message
     }
+  } catch (err) {
+    errors.value.general = 'Terjadi kesalahan saat registrasi'
+    console.error(err)
+  }
 
-    loading.value = false
-  }, 500)
+  loading.value = false
 }
 
-const handleRegisterOrganizer = () => {
+const handleRegisterOrganizer = async () => {
   errors.value = {}
   loading.value = true
 
-  setTimeout(() => {
-    const result = registerOrganizer(organizerForm.value)
+  // Validasi field
+  if (!organizerForm.value.name) {
+    errors.value.general = 'Nama organisasi wajib diisi'
+    loading.value = false
+    return
+  }
+  if (!organizerForm.value.email) {
+    errors.value.general = 'Email wajib diisi'
+    loading.value = false
+    return
+  }
+  if (!organizerForm.value.password) {
+    errors.value.general = 'Password wajib diisi'
+    loading.value = false
+    return
+  }
+  if (organizerForm.value.password.length < 6) {
+    errors.value.general = 'Password minimal 6 karakter'
+    loading.value = false
+    return
+  }
+  if (!organizerForm.value.phone) {
+    errors.value.general = 'Nomor telepon wajib diisi'
+    loading.value = false
+    return
+  }
+  if (!organizerForm.value.address) {
+    errors.value.general = 'Alamat wajib diisi'
+    loading.value = false
+    return
+  }
+  if (!organizerForm.value.bio) {
+    errors.value.general = 'Deskripsi organisasi wajib diisi'
+    loading.value = false
+    return
+  }
+
+  try {
+    const result = await registerOrganizer(organizerForm.value)
 
     if (result.success) {
-      alert(result.message)
+      alert('Registrasi organisasi berhasil! Silakan login dengan akun Anda.')
       router.push('/login')
     } else {
       errors.value.general = result.message
     }
+  } catch (err) {
+    errors.value.general = 'Terjadi kesalahan saat registrasi'
+    console.error(err)
+  }
 
-    loading.value = false
-  }, 500)
+  loading.value = false
 }
 </script>
