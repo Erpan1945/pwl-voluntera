@@ -45,7 +45,7 @@
           <ReviewCard />
        </div>
        <div class="w-full max-w-9/10 !mx-auto flex !space-x-4 !mt-4">
-            <router-link to="/">
+            <router-link to="/jelajahi">
                 <button class="rounded-xl text text-[#4A5565] text-base !px-3 !py-2 " style="background-color: white;">Jelajahi Kegiatan</button>
             </router-link>
             <router-link to="/">
