@@ -87,7 +87,5 @@ const removeActivity = async (activityId) => {
       />
 
     </div>
-
-
   </div>
 </template>
