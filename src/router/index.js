@@ -13,7 +13,7 @@ import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
 import Login from '@/views/Login.vue';
 import DetailList from '@/views/DetailList.vue';
 import EditListName from '@/views/EditListName.vue';
-
+import ActivityDetail from '@/views/ActivityDetail.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -89,7 +89,12 @@ const router = createRouter({
       path: "/logincoba",
       name: "Login Dummy",
       component: Login
-    }
+    },
+    {
+      path: "/activities/:id",
+      name: "activity-detail",
+      component: ActivityDetail
+    },
   ]
 });
 

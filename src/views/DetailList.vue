@@ -1,5 +1,6 @@
 <script setup>
 import Navbar from '@/components/Navbar.vue'
+import ActivityThumbnail from '@/components/ActivityThumbnail.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useMarkahStore } from '@/stores/lists'
 import { onMounted, ref } from 'vue'
@@ -58,8 +59,26 @@ onMounted(async () => {
     <!-- Grid Activities -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
+      <ActivityThumbnail
+        v-for="act in list?.activities"
+        :key="act.id"
+        :id="act.activity_id"
+        :image="act.image"
+        :status="act.status"
+        :category="act.category"
+        :title="act.title"
+        :description="act.description"
+        :location="act.location"
+        :date="act.date"
+        :participants="act.participants"
+        :quota="act.quota"
+        :rating="act.rating"
+        :reviews="act.reviews"
+        :organizer="act.organizer"
+      />
 
     </div>
+
 
   </div>
 </template>

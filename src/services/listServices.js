@@ -36,5 +36,7 @@ export const deleteActivityList = (listId) =>
 export const renameActivityList = (listId, newName) => {
   return api.patch(`/activity_lists/${listId}/name`, { name: newName });
 };
+export const getActivityDetail = (id) =>
+  api.get(`/activities/${id}`);
 
 export default api;
