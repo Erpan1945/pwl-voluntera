@@ -16,16 +16,6 @@
     
     const authStore = useAuthStore();
 
-    if(!authStore.isLoggedIn){
-        alert("Anda Belum Login.");
-        router.push('/loginCoba')
-    }
-
-    if(authStore.userType!=="volunteer"){
-        alert("Anda Tidak Memiliki Akses.");
-        router.push('/loginCoba')
-    }
-
     const followingStore = useFollowingStore()
     const isModalOpen = ref(false)
     const organizerId = route.params.id
@@ -57,6 +47,16 @@
         }
 
         await followingStore.fetchFollower(organizerId);
+
+        await authStore.fetchUserProfile();
+        if(!authStore.isLoggedIn){
+            alert("Anda Belum Login.")
+            return router.push('/loginCoba')
+        }
+        if(authStore.userType !== "volunteer"){
+            alert("Anda Tidak Memiliki Akses.")
+            return router.push('/loginCoba')
+        }
     });
 
     const totalFollower = computed(() => followingStore.followerList.length);

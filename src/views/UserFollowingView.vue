@@ -15,20 +15,19 @@
     const followingStore = useFollowingStore();
     const authStore = useAuthStore();
 
-    onMounted(() => {
-        followingStore.fetchFollowing()
-        authStore.fetchUserProfile()
+    onMounted(async () => {
+        await authStore.fetchUserProfile();
+        if(!authStore.isLoggedIn){
+            alert("Anda Belum Login.")
+            return router.push('/loginCoba')
+        }
+        if(authStore.userType !== "volunteer"){
+            alert("Anda Tidak Memiliki Akses.")
+            return router.push('/loginCoba')
+        }
+        await followingStore.fetchFollowing()
     })
-    const totalFollowing = computed(() => followingStore.followingList.length)
-    if(!authStore.isLoggedIn){
-    alert("Anda Belum Login.");
-    router.push('/loginCoba')
-    }
-
-    if(authStore.userType!=="volunteer"){
-        alert("Anda Tidak Memiliki Akses.");
-        router.push('/loginCoba')
-    }   
+    const totalFollowing = computed(() => followingStore.followingList.length) 
     
 </script>
 
