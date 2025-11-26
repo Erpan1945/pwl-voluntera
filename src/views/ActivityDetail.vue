@@ -5,11 +5,14 @@ import { getActivityDetail } from "@/services/listServices"
 import { useFollowingStore } from "@/stores/followings"
 import { useAuthStore } from '@/stores/auth';
 import Navbar from "@/components/Navbar.vue"
+import { useMarkahStore } from "@/stores/lists";
+
 
 // Components
 import SavetoListButton from "@/components/SavetoListButton.vue"
 import PopUpActivityList from "@/components/PopUpActivityList.vue"
 
+const markahStore = useMarkahStore();
 const activity = ref(null)
 const loading = ref(true)
 const followingStore = useFollowingStore();
@@ -23,11 +26,16 @@ onMounted(async () => {
   try {
     const res = await getActivityDetail(activityId)
     activity.value = res.data.data
+
     await followingStore.fetchFollowing()
+
+    await markahStore.fetchAllLists(activity.value.volunteer_id)
+
   } finally {
     loading.value = false
   }
 })
+
 
 const handleUnfollow = (async ($id) => {
   try{
@@ -90,9 +98,10 @@ const closePopup = () => {
 
                   <!-- POPUP (posisi absolute terhadap container ini) -->
                   <PopUpActivityList
-                    v-if="showPopup"
-                    @close="closePopup"
-                    class="absolute top-full right-0 mt-2"
+                     v-if="showPopup"
+                    :lists="markahStore.lists"
+                    :activityId="activityId"    
+                    @close="showPopup = false"
                   >
                     <p class="text-gray-700">
                       Ini isi popup. Nanti bisa diganti pilihan list.

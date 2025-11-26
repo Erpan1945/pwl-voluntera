@@ -23,6 +23,14 @@ onMounted(async () => {
 
   list.value = store.lists.find(l => l.id == listId)
 })
+
+const removeActivity = async (activityId) => {
+  await store.remove(activityId, listId);
+
+  list.value.activities = list.value.activities.filter(
+    a => a.activity_id !== activityId
+  );
+};
 </script>
 
 <template>
@@ -75,6 +83,7 @@ onMounted(async () => {
         :rating="act.rating"
         :reviews="act.reviews"
         :organizer="act.organizer"
+        @delete="removeActivity"
       />
 
     </div>
