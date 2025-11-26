@@ -260,9 +260,10 @@
           </div>
         </div>
 
-        <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Voluntera. All rights reserved.</p>
-        </div>
+        <div class="border-t mt-8 pt-8 text-center text-sm text-gray-600">
+        <p>&copy; 2025 Voluntera. Pemrograman Web Lanjut - Universitas Brawijaya</p>
+        <p class="mt-1">Tim: Vanessa, Irfan, Kezia, Khansa, Faiza, Feni</p>
+      </div>
       </div>
     </footer>
   </div>
