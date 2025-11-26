@@ -116,6 +116,7 @@
                   label="Konfirmasi Password Baru"
                   type="password"
                   :required="true"
+                  class="pb-4"
                 />
 
                 <div v-if="passwordError" class="mb-4 p-3 bg-red-50 rounded-lg">
@@ -157,7 +158,7 @@
                 <!-- Danger Zone -->
                 <div class="pt-6 border-t">
                   <h3 class="font-semibold text-red-600 mb-3">Zona Berbahaya</h3>
-                  <p class="text-sm text-gray-600 mb-4">
+                  <p class="text-sm text-gray-600 mb-4 pb-4">
                     Tindakan ini tidak dapat dibatalkan. Harap berhati-hati.
                   </p>
                   <ButtonComponent variant="danger" @click="handleDeleteAccount">
