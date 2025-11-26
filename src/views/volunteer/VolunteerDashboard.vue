@@ -43,7 +43,7 @@
     <div v-else class="flex flex-col min-h-screen">
       <NavbarComponent :user="currentUser" @logout="handleLogout" />
 
-      <div class="max-w-7xl mx-auto px-4 py-5 flex-1 w-full">
+      <div class="max-w-full mx-auto px-4 py-5 flex-1 w-full">
         <div class="mb-8">
           <h1 class="text-3xl font-bold text-gray-900 mb-2">Dashboard Relawan</h1>
 
@@ -114,20 +114,12 @@
             </div>
 
             <CardComponent class="mb-6">
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="grid grid-cols-1 gap-4">
                 <InputComponent
                   v-model="filters.search"
                   placeholder="Cari kegiatan..."
                   label="Pencarian"
                 />
-
-                <SelectComponent
-                  v-model="filters.category"
-                  label="Kategori"
-                  :options="categoryOptions"
-                />
-
-                <SelectComponent v-model="filters.city" label="Kota" :options="cityOptions" />
               </div>
             </CardComponent>
 
@@ -316,57 +308,31 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-
 import { useRouter } from 'vue-router'
-
 import { Calendar, CheckCircle, Heart, Search, Star, Plus, Bookmark } from 'lucide-vue-next'
-
 import { useAuth } from '@/composables/useAuth'
-
 import { useActivities } from '@/composables/useActivities'
-
 import { useEnrollments } from '@/composables/useEnrollments'
-
 import { useReviews } from '@/composables/useReviews'
-
 import { useFollows } from '@/composables/useFollows'
-
 import { useActivityLists } from '@/composables/useActivityLists'
-
 import { categoryOptions } from '@/data/mockData'
-
 import NavbarComponent from '@/components/layout/NavbarComponent.vue'
-
 import FooterComponent from '@/components/layout/FooterComponent.vue'
-
 import CardComponent from '@/components/common/CardComponent.vue'
-
 import InputComponent from '@/components/common/InputComponent.vue'
-
 import SelectComponent from '@/components/common/SelectComponent.vue'
-
 import TextareaComponent from '@/components/common/TextareaComponent.vue'
-
 import ButtonComponent from '@/components/common/ButtonComponent.vue'
-
 import ModalComponent from '@/components/common/ModalComponent.vue'
-
 import ActivityCard from '@/components/features/ActivityCard.vue'
-
 import EnrollmentCard from '@/components/features/EnrollmentCard.vue'
-
 import ReviewCard from '@/components/features/ReviewCard.vue'
-
 import FollowCard from '@/components/features/FollowCard.vue'
-
 import ActivityListCard from '@/components/features/ActivityListCard.vue'
-
 const router = useRouter()
-
 const { currentUser, logout, initAuth } = useAuth()
-
 const isLoggingOut = ref(false)
-
 const isLoadingInitial = ref(true) // <-- STATE BARU: Menangani loading awal
 
 // Initialize auth on mount
@@ -526,7 +492,7 @@ const reviewableActivitiesOptions = computed(() => {
 // Methods
 
 const viewActivityDetail = (activity) => {
-  router.push(`/activity/${activity.id}`)
+  router.push(`/activities/${activity.id}`)
 }
 
 const handleLogout = async () => {
