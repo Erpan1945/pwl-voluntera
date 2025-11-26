@@ -26,15 +26,21 @@ onMounted(async () => {
   }
 })
 
-const handleUnfollow = ($id) => {
-  followingStore.removeFollow($id);
-  alert("Anda berhasil berhenti mengikuti penyelenggara")
-}
+const handleUnfollow = (async ($id) => {
+  try{
+    await followingStore.removeFollow($id);
+  }finally{
+    alert("Anda berhasil berhenti mengikuti penyelenggara")
+  }
+})
 
-const handleFollow = ($data) => {
-  followingStore.addFollow($data);
-  alert("Anda berhasil mengikuti penyelenggara")
-}
+const handleFollow = (async ($data) => {
+  try{
+    await followingStore.addFollow($data);
+  }finally{
+    alert("Anda berhasil mengikuti penyelenggara")
+  }
+})
 
 
 // Popup State

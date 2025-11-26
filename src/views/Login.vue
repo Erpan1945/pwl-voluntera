@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h1>Login</h1>
-        <input v-model="email" placeholder="Email" />
-        <input v-model="password" type="password" placeholder="Password" />
-        <button @click="handleLogin">Login</button>
+        <h1 class="text !text-black">Login</h1>
+        <input v-model="email" placeholder="Email" class="text !text-black" />
+        <input v-model="password" type="password" placeholder="Password" class="text !text-black" />
+        <button @click="handleLogin" class="text !text-black border border-black">Login</button>
     </div>
 </template>
 
@@ -25,7 +25,7 @@
         if(authStore.userType=="volunteer"){
              router.push('/following');
         }else{
-            router.push('/')
+            router.push('/profile/organizer/me')
         }
     } catch (err) {
         alert('Login gagal!');
