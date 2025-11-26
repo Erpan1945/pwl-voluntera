@@ -4,10 +4,12 @@ import Navbar from '../components/Navbar.vue';
 import OrganizerCard from '@/components/OrganizerCard.vue';
 import ActivityCard from '@/components/ActivityCard.vue';
 import ReviewCard from '@/components/ReviewCard.vue';
+import ActivityListCard from '@/components/ActivityListCard.vue';
 import VolunteerListCard from '@/components/VolunteerListCard.vue';
 
 import { useMarkahStore } from '@/stores/lists';
 import { onMounted } from 'vue';
+
 
 const store = useMarkahStore();
 const volunteerId = localStorage.getItem('volunteer_id'); // sesuaikan sumber ID

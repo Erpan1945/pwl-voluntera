@@ -6,4 +6,17 @@ export const login = (credentials) => axios.post(`${API_URL}/login`,
 credentials); 
 export const register = (data) => axios.post(`${API_URL}/register`, 
 data); 
-export const logout = () => axios.post(`${API_URL}/logout`); 
+export const logout = () => {
+    const token = localStorage.getItem('access_token');
+
+    return axios.post(
+        `${API_URL}/logout`,
+        {}, // body kosong
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+};
+
