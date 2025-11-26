@@ -25,14 +25,31 @@
             :error="errors.email"
           />
 
-          <InputComponent
-            v-model="password"
-            label="Password"
-            type="password"
-            placeholder="••••••••"
-            :required="true"
-            :error="errors.password"
-          />
+          <!-- Password Input with Show/Hide -->
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1 py-2.5">
+              Password
+              <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <input
+                :value="password"
+                @input="password = $event.target.value"
+                :type="showPassword ? 'text' : 'password'"
+                placeholder="••••••••"
+                class="w-full px-4 py-2 border text-gray-700 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                type="button"
+                @click="showPassword = !showPassword"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                <Eye v-if="!showPassword" :size="20" />
+                <EyeOff v-else :size="20" />
+              </button>
+            </div>
+            <p v-if="errors.password" class="text-sm text-red-700 mt-1">{{ errors.password }}</p>
+          </div>
 
           <!-- Remember Me & Forgot Password -->
           <div class="flex items-center justify-between mb-6 mt-4 py-3">
@@ -53,7 +70,7 @@
             </button>
           </div>
 
-          <div v-if="errors.general" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <div v-if="errors.general" class="mb-4 py-2">
             <p class="text-sm text-red-700">{{ errors.general }}</p>
           </div>
 
@@ -146,7 +163,7 @@
                 :error="forgotPasswordError"
               />
 
-              <div v-if="forgotPasswordError" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <div v-if="forgotPasswordError" class="mb-4">
                 <p class="text-sm text-red-700">{{ forgotPasswordError }}</p>
               </div>
 
@@ -190,7 +207,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { Heart, ArrowLeft, X, CheckCircle } from 'lucide-vue-next'
+import { Heart, ArrowLeft, X, CheckCircle, Eye, EyeOff } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import CardComponent from '@/components/common/CardComponent.vue'
 import InputComponent from '@/components/common/InputComponent.vue'
@@ -206,6 +223,7 @@ const goBack = () => {
 // Login form state
 const email = ref('')
 const password = ref('')
+const showPassword = ref(false)
 const rememberMe = ref(false)
 const loading = ref(false)
 const errors = ref({})
@@ -226,7 +244,7 @@ onMounted(() => {
   }
 })
 
-const handleLogin = () => {
+const handleLogin = async () => {
   // Reset errors
   errors.value = {}
 
@@ -249,24 +267,26 @@ const handleLogin = () => {
     localStorage.removeItem('rememberedEmail')
   }
 
-  // Simulate API call
-  setTimeout(() => {
-    const result = login(email.value, password.value)
+  try {
+    const result = await login(email.value, password.value)
 
     if (result.success) {
       // Redirect based on role
       const routes = {
-        volunteer: '/volunteer/dashboard',
-        organizer: '/organizer/dashboard',
+        volunteer: '/dashboard/volunteer',
+        organizer: '/dashboard/organizer',
         admin: '/admin/dashboard'
       }
       router.push(routes[result.user.role])
     } else {
       errors.value.general = result.message
     }
+  } catch (err) {
+    errors.value.general = 'Terjadi kesalahan saat login'
+    console.error(err)
+  }
 
-    loading.value = false
-  }, 500)
+  loading.value = false
 }
 
 const handleForgotPassword = () => {
