@@ -6,11 +6,17 @@ export const login = (credentials) => axios.post(`${API_URL}/login`,
 credentials); 
 export const register = (data) => axios.post(`${API_URL}/register`, 
 data); 
-export const logout = () => axios.post(`${API_URL}/logout`); 
+export const logout = () => {
+    const token = localStorage.getItem('access_token');
 
-export const fetchProfile = async () => {
-  const token = localStorage.getItem('access_token'); // ambil token dari localStorage
-  return axios.get(`${API_URL}/profile`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
+    return axios.post(
+        `${API_URL}/logout`,
+        {}, // body kosong
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
 };
+
