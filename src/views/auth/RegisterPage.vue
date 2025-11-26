@@ -7,11 +7,10 @@
       </button>
       <div class="text-center mb-8">
         <div class="flex items-center justify-center gap-3 mb-4">
-          <Heart class="text-blue-600" :size="40" />
-          <span class="text-2xl font-bold text-gray-900">Voluntera</span>
+          <LogoComponent />
         </div>
-        <h1 class="text-2xl font-bold text-gray-900 mb-2">Buat Akun Baru</h1>
-        <p class="text-gray-600">Pilih jenis akun yang ingin Anda buat</p>
+        <h1 class="text-2xl font-bold text-gray-900 mb-2 py-2">Buat Akun Baru</h1>
+        <p class="text-gray-600 pb-2">Pilih jenis akun yang ingin Anda buat</p>
       </div>
 
       <CardComponent :padding="true">
@@ -105,7 +104,7 @@
             label="Bio (Opsional)"
             placeholder="Ceritakan sedikit tentang Anda..."
             :rows="3"
-            class="text-gray-700"
+            class="text-gray-700 pb-2"
           />
 
           <div v-if="errors.general" class="mb-4 p-3 bg-red-50 rounded-lg">
@@ -194,7 +193,7 @@
             placeholder="Ceritakan tentang organisasi Anda..."
             :rows="3"
             :required="true"
-            class="text-gray-700"
+            class="text-gray-700 pb-2.5"
           />
 
           <div v-if="errors.general" class="mb-4 p-3 py-3 bg-red-50 rounded-lg">
@@ -212,7 +211,7 @@
         </form>
 
         <!-- Login Link -->
-        <div class="text-center text-sm text-gray-600 mt-4">
+        <div class="text-center text-sm text-gray-600 mt-4 py-2">
           Sudah punya akun?
           <router-link to="/login" class="text-blue-600 hover:underline">
             Masuk di sini
@@ -232,6 +231,7 @@ import CardComponent from '@/components/common/CardComponent.vue'
 import InputComponent from '@/components/common/InputComponent.vue'
 import TextareaComponent from '@/components/common/TextareaComponent.vue'
 import ButtonComponent from '@/components/common/ButtonComponent.vue'
+import LogoComponent from '@/components/common/LogoComponent.vue'
 
 const router = useRouter()
 const { registerVolunteer, registerOrganizer } = useAuth()

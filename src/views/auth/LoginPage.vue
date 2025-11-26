@@ -7,11 +7,10 @@
       </button>
       <div class="text-center mb-8">
         <div class="flex items-center justify-center gap-3 mb-4">
-          <Heart class="text-blue-600" :size="40" />
-          <span class="text-2xl font-bold text-gray-900">Voluntera</span>
+          <LogoComponent />
         </div>
-        <h1 class="text-2xl font-bold text-gray-900 mb-2">Masuk ke Akun Anda</h1>
-        <p class="text-gray-600 py-3">Mulai berbuat baik hari ini</p>
+        <h1 class="text-2xl font-bold text-gray-900 mb-2 pt-2">Masuk ke Akun Anda</h1>
+        <p class="text-gray-600 py-2 pb-4">Mulai berbuat baik hari ini</p>
       </div>
 
       <CardComponent :padding="true">
@@ -212,6 +211,7 @@ import { useAuth } from '@/composables/useAuth'
 import CardComponent from '@/components/common/CardComponent.vue'
 import InputComponent from '@/components/common/InputComponent.vue'
 import ButtonComponent from '@/components/common/ButtonComponent.vue'
+import LogoComponent from '@/components/common/LogoComponent.vue'
 
 const router = useRouter()
 const { login } = useAuth()
