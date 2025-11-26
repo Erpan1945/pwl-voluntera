@@ -19,6 +19,7 @@
     const followingStore = useFollowingStore()
     const isModalOpen = ref(false)
     const organizerId = route.params.id
+    const isLoading = ref(true);
 
     const organizer = computed(() => {
         return followingStore.followingList.find(org => org.organizer_id == organizerId) || null;
@@ -57,6 +58,7 @@
             alert("Anda Tidak Memiliki Akses.")
             return router.push('/loginCoba')
         }
+        isLoading.value = false
     });
 
     const totalFollower = computed(() => followingStore.followerList.length);
@@ -64,7 +66,12 @@
 
 <template>
     <Navbar />
-    <div class="w-full max-w-3/4 !mx-auto !mt-4">
+
+    <div v-if="isLoading" class="text-center py-20 text-gray-500">
+        Memuat data...
+    </div>
+
+    <div v-else class="w-full max-w-3/4 !mx-auto !mt-4">
         <div class="flex">
             <img src="../assets/BackIcon.svg" @click="goBack()"/>
             <p class="text text-base text-[#4A5565] !ml-2">Kembali</p>
