@@ -10,7 +10,7 @@ import AdminDashboard from '../views/admin/AdminDashboard.vue'
 import VolunteerDashboard from '../views/volunteer/VolunteerDashboard.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 import NotFoundPage from '../views/NotFoundPage.vue'
-import JelajahiKegiatan from '@/views/JelajahiKegiatan.vue'
+import JelajahiKegiatan from '@/views/jelajahiKegiatan.vue'
 
 import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
 import Login from '@/views/Login.vue';
