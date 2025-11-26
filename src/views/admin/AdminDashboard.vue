@@ -173,6 +173,7 @@
           label="Alasan Penolakan"
           :required="true"
           :rows="4"
+          class="text-gray-700"
         />
 
         <div class="flex gap-2">

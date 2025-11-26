@@ -18,6 +18,7 @@ import DetailList from '@/views/DetailList.vue';
 import EditListName from '@/views/EditListName.vue';
 import ActivityDetail from '@/views/ActivityDetail.vue';
 import VolunteerOrganizerProfile from '@/views/VolunteerOrganizerProfile.vue';
+import OrganizerDashboard from '@/views/organizer/OrganizerDashboard.vue';
 
 
 const router = createRouter({
@@ -57,6 +58,12 @@ const router = createRouter({
       name: 'volunteer-dashboard',
       component: VolunteerDashboard,
       meta: { requiresAuth: true, role: 'volunteer' }
+    },
+    {
+      path: '/dashboard/organizer',
+      name: 'organizer-dashboard',
+      component: OrganizerDashboard,
+      meta: { requiresAuth: true, role: 'organizer' }
     },
     {
       path: '/profile',
