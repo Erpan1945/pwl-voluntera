@@ -492,7 +492,7 @@ const reviewableActivitiesOptions = computed(() => {
 // Methods
 
 const viewActivityDetail = (activity) => {
-  router.push(`/activities/${activity.id}`)
+  router.push(`/activity/${activity.id}`)
 }
 
 const handleLogout = async () => {

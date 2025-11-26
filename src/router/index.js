@@ -11,6 +11,7 @@ import VolunteerDashboard from '../views/volunteer/VolunteerDashboard.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 import NotFoundPage from '../views/NotFoundPage.vue'
 import JelajahiKegiatan from '@/views/jelajahiKegiatan.vue'
+import ActivityDetailPage from '@/views/activity/ActivityDetailPage.vue'
 
 import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
 import Login from '@/views/Login.vue';
@@ -129,7 +130,13 @@ const router = createRouter({
       path: "/activities/:id",
       name: "activity-detail",
       component: ActivityDetail
-    },    
+    },   
+    {
+      path: '/activity/:id',
+      name: 'activity-detail-page',
+      component: ActivityDetailPage,
+      meta: { requiresAuth: true }
+    }, 
     {
       path: '/jelajahi',
       name: 'JelajahiKegiatan',
