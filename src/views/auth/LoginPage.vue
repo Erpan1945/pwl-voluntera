@@ -275,7 +275,7 @@ const handleLogin = async () => {
       const routes = {
         volunteer: '/dashboard/volunteer',
         organizer: '/dashboard/organizer',
-        admin: '/admin/dashboard'
+        admin: '/dashboard/admin'
       }
       router.push(routes[result.user.role])
     } else {
