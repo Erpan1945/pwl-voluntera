@@ -1,12 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import UserFollowingView from '@/views/UserFollowingView.vue'
 import ActivityList from '@/views/ActivityList.vue'
 import FormDaftarBaru from '@/views/FormDaftarBaru.vue';
 import LandingPage from '../views/LandingPage.vue'
 import LoginPage from '../views/auth/LoginPage.vue'
 import RegisterPage from '../views/auth/RegisterPage.vue'
+import LoginPageTest from '../views/auth/LoginPageTest.vue'
 import AdminDashboard from '../views/admin/AdminDashboard.vue'
+import VolunteerDashboard from '../views/volunteer/VolunteerDashboard.vue'
+import ProfilePage from '../views/ProfilePage.vue'
+import NotFoundPage from '../views/NotFoundPage.vue'
+import JelajahiKegiatan from '@/views/jelajahiKegiatan.vue'
 
 import OrganizerFollowerView from '@/views/OrganizerFollowerView.vue'
 import Login from '@/views/Login.vue';
@@ -34,6 +38,11 @@ const router = createRouter({
       meta: { requiresGuest: true }
     },
     {
+      path: '/login-test',
+      name: 'login-test',
+      component: LoginPageTest
+    },
+    {
       path: '/register',
       name: 'register',
       component: RegisterPage,
@@ -44,6 +53,23 @@ const router = createRouter({
       name: 'admin-dashboard',
       component: AdminDashboard,
       meta: { requiresAuth: true, role: 'admin' }
+    },
+    {
+      path: '/volunteer/dashboard',
+      name: 'volunteer-dashboard',
+      component: VolunteerDashboard,
+      meta: { requiresAuth: true, role: 'volunteer' }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfilePage,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: NotFoundPage
     },
     {
       path: '/about',
@@ -98,11 +124,18 @@ const router = createRouter({
       name: "activity-detail",
       component: ActivityDetail
     },
+    fitur-publikasi
     {
       path: '/organizer-dashboard',
       name: 'OrganizerDashboard',
       component: OrganizerDashboard,
-    },
+    },    
+    {
+      path: '/jelajahi',
+      name: 'JelajahiKegiatan',
+      component: JelajahiKegiatan,
+    }
+    main
   ]
 });
 
